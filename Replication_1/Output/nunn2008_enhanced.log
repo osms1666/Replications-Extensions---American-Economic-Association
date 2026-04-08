@@ -1,0 +1,527 @@
+-----------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/oskarskorge/Desktop/LUSEM/LUSEM/Advanced Analysis of Economic Change/Replication 1/output/nun
+> n2008_enhanced.log
+  log type:  text
+ opened on:  20 Feb 2026, 16:25:33
+
+. 
+. use "$datapath/slave_trade_QJE.dta", clear
+
+. 
+end of do-file
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD37470.000000"
+
+. * Define control groups
+. local colony_fe "colony1 colony2 colony3 colony4 colony5 colony6 colony7"
+
+. local geo "abs_latitude longitude rain_min humid_max low_temp ln_coastline_area"
+
+. local extra "island_dum islam legor_fr region_n"
+
+. local resources "ln_avg_gold_pop ln_avg_oil_pop ln_avg_all_diamonds_pop"
+
+. local instruments "atlantic_distance_minimum indian_distance_minimum saharan_distance_minimum red_sea_distance_
+> minimum"
+
+. 
+. * Create restricted sample indicator
+. capture drop restrict
+
+. gen restrict = 1
+
+. replace restrict = 0 if island_dum == 1
+(5 real changes made)
+
+. replace restrict = 0 if inlist(isocode, "MAR","DZA","TUN","LBY","EGY")
+(5 real changes made)
+
+. replace restrict = 0 if inlist(isocode, "SYC","MUS","COM","STP","CPV")
+(0 real changes made)
+
+. 
+end of do-file
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD37470.000000"
+
+. quietly reg ln_maddison_pcgdp2000 ln_export_area `colony_fe'
+
+. estimates store ols1
+
+. 
+. quietly reg ln_maddison_pcgdp2000 ln_export_area `colony_fe' `geo'
+
+. estimates store ols2
+
+. 
+. quietly reg ln_maddison_pcgdp2000 ln_export_area `colony_fe' `geo' if restrict == 1
+
+. estimates store ols3
+
+. 
+. quietly reg ln_maddison_pcgdp2000 ln_export_area `colony_fe' `geo' `extra'
+
+. estimates store ols4
+
+. 
+. quietly reg ln_maddison_pcgdp2000 ln_export_area `colony_fe' `geo' `extra' `resources'
+
+. estimates store ols5
+
+. 
+. quietly reg ln_maddison_pcgdp2000 ln_export_area `colony_fe' `geo' `resources' if restrict == 1
+
+. estimates store ols6
+
+. 
+. * Export to RTF (Word-compatible)
+. esttab ols1 ols2 ols3 ols4 ols5 ols6 ///
+>     using "$outpath/table3_ols_enhanced.rtf", ///
+>     replace ///
+>     label ///
+>     b(%9.3f) se(%9.3f) ///
+>     star(* 0.10 ** 0.05 *** 0.01) ///
+>     stats(N r2, fmt(%9.0f %9.3f) labels("Observations" "R-squared")) ///
+>     mtitles("(1)" "(2)" "(3)" "(4)" "(5)" "(6)") ///
+>     title("Table 3: OLS Estimates - Slave Exports and Economic Development") ///
+>     nonotes addnote("Dependent variable: Log real GDP per capita in 2000" ///
+>                      "Standard errors in parentheses" ///
+>                      "* p<0.10, ** p<0.05, *** p<0.01" ///
+>                      "All specifications include colonizer fixed effects" ///
+>                      "Specifications (2)-(6) include geography controls" ///
+>                      "Specifications (4)-(5) include institutional controls" ///
+>                      "Specifications (5)-(6) include natural resource controls" ///
+>                      "Specifications (3) and (6) exclude islands and North Africa")
+(output written to /Users/oskarskorge/Desktop/LUSEM/LUSEM/Advanced Analysis of Economic Change/Replication 1/outp
+> ut/table3_ols_enhanced.rtf)
+
+. 
+. * Export to LaTeX
+. esttab ols1 ols2 ols3 ols4 ols5 ols6 ///
+>     using "$outpath/table3_ols_enhanced.tex", ///
+>     replace ///
+>     b(%9.3f) se(%9.3f) ///
+>     star(* 0.10 ** 0.05 *** 0.01) ///
+>     stats(N r2, fmt(%9.0f %9.3f) labels("Observations" "R-squared")) ///
+>     mtitles("(1)" "(2)" "(3)" "(4)" "(5)" "(6)") ///
+>     title(OLS Estimates - Slave Exports and Economic Development) ///
+>     booktabs ///
+>     nonotes addnote("Dependent variable: Log real GDP per capita in 2000. Standard errors in parentheses. * \(p
+> <0.10\), ** \(p<0.05\), *** \(p<0.01\). All specifications include colonizer fixed effects.")
+(output written to /Users/oskarskorge/Desktop/LUSEM/LUSEM/Advanced Analysis of Economic Change/Replication 1/outp
+> ut/table3_ols_enhanced.tex)
+
+. 
+. di "Table 3 enhanced versions exported to RTF and LaTeX"
+Table 3 enhanced versions exported to RTF and LaTeX
+
+. 
+end of do-file
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD37470.000000"
+
+. /*------------------------------------------------------------------------------
+>   TABLE 4 ENHANCED: IV/2SLS with publication formatting
+> ------------------------------------------------------------------------------*/
+. 
+. quietly ivregress 2sls ln_maddison_pcgdp2000 (ln_export_area = `instruments')
+:
+too few variables specified
+r(102);
+
+end of do-file
+
+r(102);
+
+. view
+
+. * Column 1: Base specification with colonizer fixed effects
+
+. regress ln_maddison_pcgdp2000 ln_export_area colony1-colony7, robust
+
+Linear regression                               Number of obs     =         52
+                                                F(5, 43)          =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.5050
+                                                Root MSE          =     .63238
+
+--------------------------------------------------------------------------------
+               |               Robust
+ln_maddis~2000 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+ln_export_area |  -.1119368   .0268193    -4.17   0.000    -.1660232   -.0578505
+       colony1 |   .3620645   .1491675     2.43   0.019     .0612396    .6628895
+       colony2 |   .3134652   .1588254     1.97   0.055    -.0068367    .6337671
+       colony3 |   .2108044   .1915438     1.10   0.277    -.1754805    .5970893
+       colony4 |  -.8893172   .1750712    -5.08   0.000    -1.242382   -.5362524
+       colony5 |   1.656147   .1767839     9.37   0.000     1.299628    2.012666
+       colony6 |   .8620759   .1896608     4.55   0.000     .4795884    1.244563
+       colony7 |   .7156048   .1072662     6.67   0.000     .4992819    .9319276
+         _cons |   7.215343   .1504348    47.96   0.000     6.911962    7.518723
+--------------------------------------------------------------------------------
+
+. 
+. * Column 2: Adding geography controls
+
+. regress ln_maddison_pcgdp2000 ln_export_area abs_latitude longitude rain_min humid_max low_temp ln_coastline_ar
+> ea colony1-colony7, robust
+
+Linear regression                               Number of obs     =         52
+                                                F(11, 37)         =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.6011
+                                                Root MSE          =     .61201
+
+-----------------------------------------------------------------------------------
+                  |               Robust
+ln_maddison_~2000 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+------------------+----------------------------------------------------------------
+   ln_export_area |  -.0761698   .0268724    -2.83   0.007    -.1306184   -.0217213
+     abs_latitude |   .0158371   .0175615     0.90   0.373    -.0197458    .0514201
+        longitude |   .0004993   .0059861     0.08   0.934    -.0116298    .0126283
+         rain_min |  -.0006245   .0106402    -0.06   0.954    -.0221836    .0209346
+        humid_max |   .0094435   .0093461     1.01   0.319    -.0094935    .0283805
+         low_temp |  -.0188644   .0313548    -0.60   0.551    -.0823952    .0446665
+ln_coastline_area |   .0846569   .0355134     2.38   0.022     .0126998    .1566139
+          colony1 |   .8391803   .3697582     2.27   0.029     .0899791    1.588381
+          colony2 |   .7651118   .4423197     1.73   0.092    -.1311131    1.661337
+          colony3 |   .4488897   .4083221     1.10   0.279    -.3784495    1.276229
+          colony4 |   .0823373    .602056     0.14   0.892    -1.137544    1.302219
+          colony5 |   2.137324   .4839799     4.42   0.000     1.156688    3.117961
+          colony6 |   1.340965   .4602991     2.91   0.006     .4083101    2.273619
+          colony7 |   .7517891   .4040803     1.86   0.071    -.0669554    1.570534
+            _cons |   5.944052   .8413347     7.07   0.000     4.239346    7.648758
+-----------------------------------------------------------------------------------
+
+. 
+. * Column 3: Dropping islands and North African countries
+
+. regress ln_maddison_pcgdp2000 ln_export_area abs_latitude longitude rain_min humid_max low_temp ln_coastline_ar
+> ea colony1-colony7 if island_dum == 0 & region_n == 0, robust
+note: colony7 omitted because of collinearity.
+
+Linear regression                               Number of obs     =         42
+                                                F(11, 28)         =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.6331
+                                                Root MSE          =      .5304
+
+-----------------------------------------------------------------------------------
+                  |               Robust
+ln_maddison_~2000 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+------------------+----------------------------------------------------------------
+   ln_export_area |  -.1080404   .0374712    -2.88   0.007    -.1847967   -.0312841
+     abs_latitude |  -.0049518    .021485    -0.23   0.819    -.0489618    .0390582
+        longitude |  -.0069257   .0055786    -1.24   0.225     -.018353    .0045016
+         rain_min |   .0078999   .0074607     1.06   0.299    -.0073827    .0231825
+        humid_max |   .0078949   .0097641     0.81   0.426    -.0121058    .0278957
+         low_temp |  -.0391672     .02771    -1.41   0.169    -.0959285    .0175941
+ln_coastline_area |   .0915107   .0409439     2.24   0.034      .007641    .1753804
+          colony1 |   .9137018   .3107629     2.94   0.007     .2771328    1.550271
+          colony2 |   .9610593   .4060213     2.37   0.025     .1293624    1.792756
+          colony3 |   1.033226   .3821603     2.70   0.012     .2504065    1.816046
+          colony4 |   .3476213   .4854991     0.72   0.480    -.6468784    1.342121
+          colony5 |   2.113193    .447866     4.72   0.000     1.195781    3.030605
+          colony6 |   1.324501   .4658952     2.84   0.008     .3701575    2.278844
+          colony7 |          0  (omitted)
+            _cons |   6.509468   .8560405     7.60   0.000     4.755949    8.262988
+-----------------------------------------------------------------------------------
+
+. 
+. * Column 4: Adding island, Islamic, French legal origin, and North Africa controls
+
+. regress ln_maddison_pcgdp2000 ln_export_area abs_latitude longitude rain_min humid_max low_temp ln_coastline_ar
+> ea island_dum islam legor_fr region_n colony1-colony7, robust
+
+Linear regression                               Number of obs     =         52
+                                                F(15, 33)         =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.7093
+                                                Root MSE          =     .55318
+
+-----------------------------------------------------------------------------------
+                  |               Robust
+ln_maddison_~2000 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+------------------+----------------------------------------------------------------
+   ln_export_area |  -.0853683    .032687    -2.61   0.013    -.1518704   -.0188661
+     abs_latitude |   .0194064   .0151892     1.28   0.210    -.0114963     .050309
+        longitude |   -.003815   .0054344    -0.70   0.488    -.0148713    .0072413
+         rain_min |   .0001301   .0072332     0.02   0.986     -.014586    .0148462
+        humid_max |   .0090183   .0110178     0.82   0.419    -.0133976    .0314342
+         low_temp |  -.0049141   .0298535    -0.16   0.870    -.0656516    .0558233
+ln_coastline_area |   .0953744   .0485898     1.96   0.058    -.0034822    .1942311
+       island_dum |  -.3983413   .4968694    -0.80   0.428     -1.40923    .6125472
+            islam |  -.0084166   .0034332    -2.45   0.020    -.0154015   -.0014318
+         legor_fr |    .755125   .4560524     1.66   0.107    -.1727206    1.682971
+         region_n |   .3818035   .3789699     1.01   0.321    -.3892166    1.152824
+          colony1 |   1.249634   .4853079     2.57   0.015     .2622678       2.237
+          colony2 |   .5443736   .5944965     0.92   0.366    -.6651387    1.753886
+          colony3 |  -.0247419   .5407189    -0.05   0.964    -1.124843    1.075359
+          colony4 |  -.4588254   .7369931    -0.62   0.538    -1.958249    1.040598
+          colony5 |   1.386399   .6597385     2.10   0.043     .0441509    2.728647
+          colony6 |   1.581314   .6548479     2.41   0.021     .2490157    2.913612
+          colony7 |   .6272915   .5568291     1.13   0.268    -.5055858    1.760169
+            _cons |   5.743149   1.063345     5.40   0.000     3.579758     7.90654
+-----------------------------------------------------------------------------------
+
+. 
+. * Column 5: Adding natural resource controls
+
+. regress ln_maddison_pcgdp2000 ln_export_area abs_latitude longitude rain_min humid_max low_temp ln_coastline_ar
+> ea island_dum islam legor_fr region_n ln_avg_gold_pop ln_avg_oil_pop ln_avg_all_diamonds_pop colony1-colony7, r
+> obust
+
+Linear regression                               Number of obs     =         52
+                                                F(18, 30)         =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.7733
+                                                Root MSE          =     .51232
+
+-----------------------------------------------------------------------------------------
+                        |               Robust
+  ln_maddison_pcgdp2000 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+------------------------+----------------------------------------------------------------
+         ln_export_area |  -.1032478   .0293365    -3.52   0.001    -.1631608   -.0433348
+           abs_latitude |   .0228108   .0153674     1.48   0.148    -.0085736    .0541951
+              longitude |   -.003887   .0056523    -0.69   0.497    -.0154307    .0076566
+               rain_min |  -.0009718   .0076714    -0.13   0.900     -.016639    .0146953
+              humid_max |   .0147897   .0088017     1.68   0.103    -.0031857    .0327651
+               low_temp |  -.0150766   .0268353    -0.56   0.578    -.0698817    .0397285
+      ln_coastline_area |   .0824996   .0443368     1.86   0.073    -.0080481    .1730474
+             island_dum |  -.1504042   .5363689    -0.28   0.781    -1.245816    .9450073
+                  islam |  -.0058818   .0038315    -1.54   0.135    -.0137068    .0019433
+               legor_fr |   .6427065    .426682     1.51   0.142    -.2286944    1.514107
+               region_n |  -.3039423   .3920408    -0.78   0.444    -1.104596    .4967118
+        ln_avg_gold_pop |   .0109696   .0138072     0.79   0.433    -.0172286    .0391677
+         ln_avg_oil_pop |       .078   .0262411     2.97   0.006     .0244085    .1315916
+ln_avg_all_diamonds_pop |  -.0392001   .0507149    -0.77   0.446    -.1427738    .0643736
+                colony1 |   1.074964   .5091549     2.11   0.043     .0351311    2.114797
+                colony2 |   .3682575   .5902754     0.62   0.537    -.8372457    1.573761
+                colony3 |  -.1034859   .5936979    -0.17   0.863    -1.315979    1.109007
+                colony4 |  -.5897312   .7190839    -0.82   0.419    -2.058296    .8788341
+                colony5 |   .7022669   .7237325     0.97   0.340     -.775792    2.180326
+                colony6 |   1.693299   .5875723     2.88   0.007     .4933164    2.893282
+                colony7 |   .0428767   .6057231     0.07   0.944    -1.194175    1.279928
+                  _cons |   6.024139   .9341618     6.45   0.000     4.116326    7.931952
+-----------------------------------------------------------------------------------------
+
+. 
+. * Column 6: Full controls, but dropping islands and North Africa
+
+. regress ln_maddison_pcgdp2000 ln_export_area abs_latitude longitude rain_min humid_max low_temp ln_coastline_ar
+> ea islam legor_fr ln_avg_gold_pop ln_avg_oil_pop ln_avg_all_diamonds_pop colony1-colony7 if island_dum == 0 & r
+> egion_n == 0, robust
+note: colony7 omitted because of collinearity.
+
+Linear regression                               Number of obs     =         42
+                                                F(14, 23)         =          .
+                                                Prob > F          =          .
+                                                R-squared         =     0.7973
+                                                Root MSE          =     .43494
+
+-----------------------------------------------------------------------------------------
+                        |               Robust
+  ln_maddison_pcgdp2000 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+------------------------+----------------------------------------------------------------
+         ln_export_area |   -.127687   .0314818    -4.06   0.000    -.1928121   -.0625619
+           abs_latitude |    .006147   .0146152     0.42   0.678    -.0240868    .0363808
+              longitude |  -.0094103   .0061743    -1.52   0.141    -.0221829    .0033623
+               rain_min |  -.0017904   .0073602    -0.24   0.810    -.0170161    .0134352
+              humid_max |   .0126498   .0085581     1.48   0.153     -.005054    .0303536
+               low_temp |  -.0370341   .0268275    -1.38   0.181    -.0925311    .0184629
+      ln_coastline_area |   .0829587   .0372702     2.23   0.036     .0058595    .1600579
+                  islam |  -.0028796   .0032541    -0.88   0.385    -.0096112     .003852
+               legor_fr |  -.1413165   .4833153    -0.29   0.773     -1.14113    .8584974
+        ln_avg_gold_pop |   .0144583   .0142072     1.02   0.319    -.0149316    .0438482
+         ln_avg_oil_pop |   .0879307   .0250407     3.51   0.002     .0361302    .1397313
+ln_avg_all_diamonds_pop |  -.0483914   .0477076    -1.01   0.321     -.147082    .0502992
+                colony1 |   .6571079   .3332193     1.97   0.061    -.0322087    1.346425
+                colony2 |   .7086249   .5504592     1.29   0.211    -.4300866    1.847336
+                colony3 |   .7171449   .5788303     1.24   0.228    -.4802567    1.914547
+                colony4 |  -.0469396   .6814783    -0.07   0.946    -1.456685    1.362806
+                colony5 |   1.039727   .7389077     1.41   0.173    -.4888199    2.568274
+                colony6 |   1.146335    .344581     3.33   0.003      .433515    1.859155
+                colony7 |          0  (omitted)
+                  _cons |   7.112935   .7256687     9.80   0.000     5.611775    8.614095
+-----------------------------------------------------------------------------------------
+
+. * Column 1: IV without controls
+
+. ivregress 2sls ln_maddison_pcgdp2000 (ln_export_area = atlantic_distance_minimum indian_distance_minimum sahara
+> n_distance_minimum red_sea_distance_minimum), robust
+
+Instrumental-variables 2SLS regression            Number of obs   =         52
+                                                  Wald chi2(1)    =      21.28
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.1273
+                                                  Root MSE        =     .76357
+
+--------------------------------------------------------------------------------
+               |               Robust
+ln_maddis~2000 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+ln_export_area |  -.2079408   .0450778    -4.61   0.000    -.2962916     -.11959
+         _cons |   7.811352   .1713979    45.57   0.000     7.475419    8.147286
+--------------------------------------------------------------------------------
+Endogenous: ln_export_area
+Exogenous:  atlantic_distance_minimum indian_distance_minimum
+            saharan_distance_minimum red_sea_distance_minimum
+
+. 
+. * View first-stage F-stat for Column 1
+
+. estat firststage
+
+  First-stage regression summary statistics
+  --------------------------------------------------------------------------
+               |            Adjusted      Partial       Robust
+      Variable |   R-sq.       R-sq.        R-sq.       F(4,47)   Prob > F
+  -------------+------------------------------------------------------------
+  ln_export_~a |  0.2789      0.2176       0.2789       5.18302    0.0015
+  --------------------------------------------------------------------------
+
+
+. 
+. * Column 2: IV with colonizer fixed effects
+
+. ivregress 2sls ln_maddison_pcgdp2000 colony1-colony7 (ln_export_area = atlantic_distance_minimum indian_distanc
+> e_minimum saharan_distance_minimum red_sea_distance_minimum), robust
+
+Instrumental-variables 2SLS regression            Number of obs   =         52
+                                                  Wald chi2(8)    =     397.31
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.3424
+                                                  Root MSE        =      .6628
+
+--------------------------------------------------------------------------------
+               |               Robust
+ln_maddis~2000 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+ln_export_area |  -.2013956   .0487634    -4.13   0.000    -.2969702    -.105821
+       colony1 |   .1512707   .2079147     0.73   0.467    -.2562347    .5587761
+       colony2 |   .1436614   .2140848     0.67   0.502    -.2759371    .5632599
+       colony3 |   .0419035   .3749431     0.11   0.911    -.6929714    .7767785
+       colony4 |  -1.252007   .2381725    -5.26   0.000    -1.718817   -.7851976
+       colony5 |   1.067457    .337047     3.17   0.002     .4068566    1.728056
+       colony6 |   .2303655   .3594444     0.64   0.522    -.4741325    .9348636
+       colony7 |   .3594428   .2198187     1.64   0.102    -.0713939    .7902794
+         _cons |   7.715969   .2917143    26.45   0.000     7.144219    8.287719
+--------------------------------------------------------------------------------
+Endogenous: ln_export_area
+Exogenous:  colony1 colony2 colony3 colony4 colony5 colony6 colony7
+            atlantic_distance_minimum indian_distance_minimum
+            saharan_distance_minimum red_sea_distance_minimum
+
+. estat firststage
+
+  First-stage regression summary statistics
+  --------------------------------------------------------------------------
+               |            Adjusted      Partial       Robust
+      Variable |   R-sq.       R-sq.        R-sq.       F(4,40)   Prob > F
+  -------------+------------------------------------------------------------
+  ln_export_~a |  0.3959      0.2298       0.3378       5.01664    0.0023
+  --------------------------------------------------------------------------
+
+
+. 
+. * Column 3: IV with colonizer fixed effects and geography controls
+
+. ivregress 2sls ln_maddison_pcgdp2000 abs_latitude longitude rain_min humid_max low_temp ln_coastline_area colon
+> y1-colony7 (ln_export_area = atlantic_distance_minimum indian_distance_minimum saharan_distance_minimum red_sea
+> _distance_minimum), robust
+
+Instrumental-variables 2SLS regression            Number of obs   =         52
+                                                  Wald chi2(14)   =     428.03
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.0411
+                                                  Root MSE        =     .80036
+
+-----------------------------------------------------------------------------------
+                  |               Robust
+ln_maddison_~2000 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+------------------+----------------------------------------------------------------
+   ln_export_area |  -.2856593     .13308    -2.15   0.032    -.5464914   -.0248273
+     abs_latitude |  -.0075215   .0320106    -0.23   0.814    -.0702611     .055218
+        longitude |  -.0101166   .0108505    -0.93   0.351    -.0313832    .0111499
+         rain_min |  -.0119297   .0156611    -0.76   0.446    -.0426248    .0187654
+        humid_max |   -.002182    .010911    -0.20   0.841    -.0235671    .0192031
+         low_temp |   .0205483   .0466171     0.44   0.659    -.0708194    .1119161
+ln_coastline_area |   .0230536   .0640508     0.36   0.719    -.1024837    .1485909
+          colony1 |   .0595393   .7357865     0.08   0.936    -1.382576    1.501654
+          colony2 |  -.1358384   .7646109    -0.18   0.859    -1.634448    1.362771
+          colony3 |  -.5211782   1.107627    -0.47   0.638    -2.692086     1.64973
+          colony4 |  -1.622853    1.36673    -1.19   0.235    -4.301594    1.055888
+          colony5 |   .0892436   1.471625     0.06   0.952    -2.795088    2.973575
+          colony6 |  -.2793559     1.1168    -0.25   0.802    -2.468244    1.909532
+          colony7 |   .1694415    .702168     0.24   0.809    -1.206782    1.545665
+            _cons |   8.601756   1.851546     4.65   0.000     4.972792    12.23072
+-----------------------------------------------------------------------------------
+Endogenous: ln_export_area
+Exogenous:  abs_latitude longitude rain_min humid_max low_temp ln_coastline_area
+            colony1 colony2 colony3 colony4 colony5 colony6 colony7
+            atlantic_distance_minimum indian_distance_minimum
+            saharan_distance_minimum red_sea_distance_minimum
+
+. estat firststage
+
+  First-stage regression summary statistics
+  --------------------------------------------------------------------------
+               |            Adjusted      Partial       Robust
+      Variable |   R-sq.       R-sq.        R-sq.       F(4,34)   Prob > F
+  -------------+------------------------------------------------------------
+  ln_export_~a |  0.4770      0.2155       0.0871        .99247    0.4249
+  --------------------------------------------------------------------------
+
+
+. 
+. * Column 4: IV with geography & colonizer FEs, restricted sample (no islands/N. Africa)
+
+. ivregress 2sls ln_maddison_pcgdp2000 abs_latitude longitude rain_min humid_max low_temp ln_coastline_area colon
+> y1-colony7 (ln_export_area = atlantic_distance_minimum indian_distance_minimum saharan_distance_minimum red_sea
+> _distance_minimum) if island_dum == 0 & region_n == 0, robust
+note: colony7 omitted because of collinearity.
+
+Instrumental-variables 2SLS regression            Number of obs   =         42
+                                                  Wald chi2(13)   =     770.94
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.5108
+                                                  Root MSE        =     .50004
+
+-----------------------------------------------------------------------------------
+                  |               Robust
+ln_maddison_~2000 | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+------------------+----------------------------------------------------------------
+   ln_export_area |  -.2212382   .0764996    -2.89   0.004    -.3711747   -.0713016
+     abs_latitude |  -.0218078   .0232053    -0.94   0.347    -.0672894    .0236738
+        longitude |  -.0151103   .0060636    -2.49   0.013    -.0269946   -.0032259
+         rain_min |   .0043858    .007431     0.59   0.555    -.0101786    .0189503
+        humid_max |   .0008091   .0104351     0.08   0.938    -.0196434    .0212616
+         low_temp |  -.0356832   .0313123    -1.14   0.254    -.0970542    .0256878
+ln_coastline_area |   .1259402   .0467121     2.70   0.007     .0343861    .2174943
+          colony1 |   .8706337   .3263143     2.67   0.008     .2310694    1.510198
+          colony2 |   .8884653   .3199269     2.78   0.005     .2614201    1.515511
+          colony3 |   1.267671   .4534816     2.80   0.005     .3788633    2.156479
+          colony4 |   .1347947   .5138076     0.26   0.793    -.8722497    1.141839
+          colony5 |   1.248765   .6999444     1.78   0.074    -.1231008    2.620631
+          colony6 |   .5069469   .7193518     0.70   0.481    -.9029567     1.91685
+          colony7 |          0  (omitted)
+            _cons |   7.948105   1.140434     6.97   0.000     5.712896    10.18331
+-----------------------------------------------------------------------------------
+Endogenous: ln_export_area
+Exogenous:  abs_latitude longitude rain_min humid_max low_temp ln_coastline_area
+            colony1 colony2 colony3 colony4 colony5 colony6
+            atlantic_distance_minimum indian_distance_minimum
+            saharan_distance_minimum red_sea_distance_minimum
+
+. estat firststage
+
+  First-stage regression summary statistics
+  --------------------------------------------------------------------------
+               |            Adjusted      Partial       Robust
+      Variable |   R-sq.       R-sq.        R-sq.       F(4,25)   Prob > F
+  -------------+------------------------------------------------------------
+  ln_export_~a |  0.7197      0.5403       0.3140       1.70366    0.1807
+  --------------------------------------------------------------------------
+
+

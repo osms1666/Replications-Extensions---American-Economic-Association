@@ -1,0 +1,18 @@
+	(1)
+VARIABLES	isib_famincome
+	
+isib_stocks	0.2501***
+	(0.0132)
+isib_age	0.0766***
+	(0.0159)
+sib_agesq	-0.0009***
+	(0.0002)
+isib_race	-0.1858***
+	(0.0425)
+Constant	9.8528***
+	(0.2825)
+	
+Observations	12,835
+Number of sib_id	1,948
+Robust standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	
