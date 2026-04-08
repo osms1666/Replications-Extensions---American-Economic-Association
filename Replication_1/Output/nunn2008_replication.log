@@ -1,0 +1,346 @@
+---------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/oskarskorge/Desktop/LUSEM/LUSEM/Advanced Analysis of Economic Change/Replication 1/output/n
+> unn2008_replication.log
+  log type:  text
+ opened on:  19 Feb 2026, 15:16:39
+
+. 
+end of do-file
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD01590.000000"
+
+.   use "$datapath/slave_trade_QJE.dta", clear
+
+. 
+end of do-file
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD01590.000000"
+
+.   describe          // shows variable names, types, and labels
+
+Contains data from /Users/oskarskorge/Desktop/LUSEM/LUSEM/Advanced Analysis of Economic Change/Replication 1/In
+> put/slave_trade_QJE.dta
+ Observations:            52                  
+    Variables:            46                  17 Feb 2026 12:53
+---------------------------------------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+---------------------------------------------------------------------------------------------------------------
+isocode         str10   %10s                  Country isocode
+country         str28   %28s                  Country name
+ln_maddiso~2000 float   %9.0g                 Log per capita GDP - from Maddison (2003)
+ln_export_area  float   %9.0g                 Log total slave exports normalized by land area
+ln_export_pop   float   %9.0g                 Log total slave exports normalized by historic population
+colony0         float   %9.0g                 Colonizer indicator: not colonized
+colony1         float   %9.0g                 Colonizer indicator: Britan
+colony2         float   %9.0g                 Colonizer indicator: France
+colony3         float   %9.0g                 Colonizer indicator: Portugal
+colony4         float   %9.0g                 Colonizer indicator: Belgium
+colony5         float   %9.0g                 Colonizer indicator: Spain
+colony6         float   %9.0g                 Colonizer indicator: UN
+colony7         float   %9.0g                 Colonizer indicator: Italy
+abs_latitude    float   %9.0g                 Absolute latitude
+longitude       float   %9.0g                 Longitude
+rain_min        byte    %8.0g                 Min of monthly average rainfall (mm)
+humid_max       byte    %8.0g                 Max of monthly afternoon avg humidity (%)
+low_temp        byte    %8.0g                 Min of avg monthly low temp (C)
+ln_coastline_~a float   %9.0g                 Log (coastline/land_area)
+island_dum      float   %9.0g                 Indicator variable for small islands
+islam           float   %9.0g                 Percent Islamic
+legor_fr        float   %9.0g                 Legal origin indicator: French
+legor_uk        float   %9.0g                 Legal origin indicator: British
+region_n        float   %9.0g                 Region indicator: North
+region_s        float   %9.0g                 Region indicator: South
+region_w        float   %9.0g                 Region indicator: West
+region_e        float   %9.0g                 Region indicator: East
+region_c        float   %9.0g                 Region indicator: Central
+ln_avg_gold_pop float   %9.0g                 Log gold production per capita
+ln_avg_oil_pop  float   %9.0g                 Log oil production per capita
+ln_avg_all_di~p float   %9.0g                 Log diamond production per capita
+ln_pop_den~1400 float   %9.0g                 Log population density in 1400
+atlantic_dist~m float   %9.0g                 Minimum Atlantic distance (000s of kms)
+indian_distan~m float   %9.0g                 Minimum Indian distance (000s of kms)
+saharan_dista~m float   %9.0g                 Minimum Saharan distance (000s of kms)
+red_sea_dista~m float   %9.0g                 Minimum Red Sea distance (000s of kms)
+ethnic_fracti~n float   %9.0g                 Ethnic fractionalization - from Alesina et al (2003)
+state_dev       float   %9.0g                 State development - from Gennaioli & Rainer (2006)
+land_area       double  %12.0g                Land area in millions of square kms
+restrict        float   %9.0g                 =1 excludes islands and North African countries
+_est_col1       byte    %8.0g                 esample() from estimates store
+_est_col2       byte    %8.0g                 esample() from estimates store
+_est_col3       byte    %8.0g                 esample() from estimates store
+_est_col4       byte    %8.0g                 esample() from estimates store
+_est_col5       byte    %8.0g                 esample() from estimates store
+_est_col6       byte    %8.0g                 esample() from estimates store
+---------------------------------------------------------------------------------------------------------------
+Sorted by: isocode
+
+. 
+end of do-file
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD01590.000000"
+
+.   summarize         // shows N, mean, sd, min, max for every variable
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+     isocode |          0
+     country |          0
+ln_madd~2000 |         52    7.133545    .8253172   5.384495   9.273503
+ln_export_~a |         52    3.259615    3.894839  -2.302585   8.818254
+ln_export_~p |         52    9.263515    3.682379   3.912023   14.39925
+-------------+---------------------------------------------------------
+     colony0 |         52    .0384615    .1941839          0          1
+     colony1 |         52    .3461538    .4803845          0          1
+     colony2 |         52    .4038462    .4954545          0          1
+     colony3 |         52    .0961538    .2976783          0          1
+     colony4 |         52    .0576923    .2354355          0          1
+-------------+---------------------------------------------------------
+     colony5 |         52    .0192308     .138675          0          1
+     colony6 |         52    .0192308     .138675          0          1
+     colony7 |         52    .0192308     .138675          0          1
+abs_latitude |         52       13.55    9.858598         .2         36
+   longitude |         52    16.69876    20.21442  -24.04431   57.79387
+-------------+---------------------------------------------------------
+    rain_min |         52    8.865385    16.05509          0         69
+   humid_max |         52    71.67308    11.94714         35         95
+    low_temp |         52        8.75    7.488226         -9         19
+ln_coastli~a |         52   -.2377944      3.2352   -4.60517   6.983902
+  island_dum |         52    .0961538    .2976783          0          1
+-------------+---------------------------------------------------------
+       islam |         52    35.31923    39.08479          0        100
+    legor_fr |         52    .6538462    .4803845          0          1
+    legor_uk |         52    .3461538    .4803845          0          1
+    region_n |         52    .0961538    .2976783          0          1
+    region_s |         52    .1730769    .3820047          0          1
+-------------+---------------------------------------------------------
+    region_w |         52    .3076923    .4660414          0          1
+    region_e |         52         .25    .4372373          0          1
+    region_c |         52    .1730769    .3820047          0          1
+ln_avg_gol~p |         52   -7.483988    5.664153  -13.81551   3.084304
+ln_avg_oil~p |         52   -6.714773    4.030915   -9.21034   3.235896
+-------------+---------------------------------------------------------
+ln_avg_all~p |         52   -5.490105    2.396281  -6.907755   2.186849
+ln_pop_~1400 |         52     .110671    1.333923  -2.302585   3.036856
+atlantic_d~m |         52      7.3808    3.280256   3.646842   16.39266
+indian_dis~m |         52    6.934245    4.238689   .0319096   16.77543
+saharan_di~m |         52    3.511205    1.567817   .3097339   6.637325
+-------------+---------------------------------------------------------
+red_sea_di~m |         52    3.445517    1.466612   .0643895   6.465437
+ethnic_fra~n |         51    .6300412     .251408          0      .9302
+   state_dev |         47     .580383    .3291335          0          1
+   land_area |         52     .578238    .6462555    .000455       2.51
+    restrict |         52    .8076923    .3979586          0          1
+-------------+---------------------------------------------------------
+   _est_col1 |         52           1           0          1          1
+   _est_col2 |         52           1           0          1          1
+   _est_col3 |         52    .8076923    .3979586          0          1
+   _est_col4 |         52           1           0          1          1
+   _est_col5 |         52           1           0          1          1
+-------------+---------------------------------------------------------
+   _est_col6 |         52    .8076923    .3979586          0          1
+
+. 
+end of do-file
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD01590.000000"
+
+.   local sumvars ///
+>       ln_maddison_pcgdp2000 ln_export_area ln_export_pop           ///
+>       abs_latitude longitude rain_min humid_max low_temp            ///
+>       ln_coastline_area island_dum islam legor_fr                   ///
+>       ln_avg_gold_pop ln_avg_oil_pop ln_avg_all_diamonds_pop        ///
+>       atlantic_distance_minimum indian_distance_minimum             ///
+>       saharan_distance_minimum red_sea_distance_minimum
+
+. 
+.   tabstat `sumvars', ///
+>       statistics(mean sd min max n) ///
+>       columns(statistics)           ///
+>       format(%9.2f)
+
+    Variable |      Mean        SD       Min       Max         N
+-------------+--------------------------------------------------
+ln_madd~2000 |      7.13      0.83      5.38      9.27     52.00
+ln_export_~a |      3.26      3.89     -2.30      8.82     52.00
+ln_export_~p |      9.26      3.68      3.91     14.40     52.00
+abs_latitude |     13.55      9.86      0.20     36.00     52.00
+   longitude |     16.70     20.21    -24.04     57.79     52.00
+    rain_min |      8.87     16.06      0.00     69.00     52.00
+   humid_max |     71.67     11.95     35.00     95.00     52.00
+    low_temp |      8.75      7.49     -9.00     19.00     52.00
+ln_coastli~a |     -0.24      3.24     -4.61      6.98     52.00
+  island_dum |      0.10      0.30      0.00      1.00     52.00
+       islam |     35.32     39.08      0.00    100.00     52.00
+    legor_fr |      0.65      0.48      0.00      1.00     52.00
+ln_avg_gol~p |     -7.48      5.66    -13.82      3.08     52.00
+ln_avg_oil~p |     -6.71      4.03     -9.21      3.24     52.00
+ln_avg_all~p |     -5.49      2.40     -6.91      2.19     52.00
+atlantic_d~m |      7.38      3.28      3.65     16.39     52.00
+indian_dis~m |      6.93      4.24      0.03     16.78     52.00
+saharan_di~m |      3.51      1.57      0.31      6.64     52.00
+red_sea_di~m |      3.45      1.47      0.06      6.47     52.00
+----------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD01590.000000"
+
+.   quietly reg ln_maddison_pcgdp2000 ln_export_area
+
+.   local coef  = string(_b[ln_export_area], "%6.3f")
+
+.   local se    = string(_se[ln_export_area], "%5.3f")
+
+.   local N     = e(N)
+
+.   local r2    = string(e(r2), "%4.2f")
+
+. 
+.   twoway ///
+>       (scatter ln_maddison_pcgdp2000 ln_export_area,                 ///
+>           mlabel(isocode) mlabsize(tiny) mlabposition(3)             ///
+>           msymbol(none)                                               ///
+>           mcolor(gs6))                                                ///
+>       (lfit ln_maddison_pcgdp2000 ln_export_area,                    ///
+>           lcolor(black) lwidth(medium)),                              ///
+>       ytitle("Log real per capita GDP in 2000, ln y")                 ///
+>       xtitle("ln(exports/area)")                                      ///
+>       title("Figure 3: Slave Exports and Income")                     ///
+>       note("(coef = `coef', s.e. = `se', N = `N', R{superscript:2} = `r2')", ///
+>            size(small))                                               ///
+>       legend(off)                                                     ///
+>       scheme(s1mono)
+
+. 
+end of do-file
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD01590.000000"
+
+.   graph export "$outpath/figure3_scatter.png", replace width(1200)
+could not find Graph window
+r(693);
+
+end of do-file
+
+r(693);
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD01590.000000"
+
+.   * Check which colonizer codes exist
+.   tab colony0
+
+  Colonizer |
+ indicator: |
+        not |
+  colonized |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |         50       96.15       96.15
+          1 |          2        3.85      100.00
+------------+-----------------------------------
+      Total |         52      100.00
+
+.   * (you can do the same for colony1-colony7 to see the breakdown)
+. 
+.   local colony_fe "colony1 colony2 colony3 colony4 colony5 colony6 colony7"
+
+. 
+.   local geo_controls ///
+>       abs_latitude longitude rain_min humid_max low_temp ln_coastline_area
+
+. 
+.   * ---------- Column (1): Colonizer FE only ----------
+.   reg ln_maddison_pcgdp2000 ln_export_area `colony_fe'
+
+      Source |       SS           df       MS      Number of obs   =        52
+-------------+----------------------------------   F(8, 43)        =      5.48
+       Model |  17.5429292         8  2.19286615   Prob > F        =    0.0001
+    Residual |  17.1956446        43  .399898711   R-squared       =    0.5050
+-------------+----------------------------------   Adj R-squared   =    0.4129
+       Total |  34.7385738        51  .681148506   Root MSE        =    .63238
+
+--------------------------------------------------------------------------------
+ln_maddis~2000 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+ln_export_area |  -.1119368   .0238032    -4.70   0.000    -.1599405   -.0639331
+       colony1 |   .3620645   .4746702     0.76   0.450    -.5951992    1.319328
+       colony2 |   .3134652    .470142     0.67   0.508    -.6346665    1.261597
+       colony3 |   .2108044   .5309885     0.40   0.693     -.860036    1.281645
+       colony4 |  -.8893172    .585288    -1.52   0.136    -2.069663    .2910286
+       colony5 |   1.656147   .7901796     2.10   0.042     .0625981    3.249696
+       colony6 |   .8620759   .7925281     1.09   0.283    -.7362093    2.460361
+       colony7 |   .7156048   .7802749     0.92   0.364    -.8579696    2.289179
+         _cons |   7.215343   .4665762    15.46   0.000     6.274402    8.156283
+--------------------------------------------------------------------------------
+
+.   /*
+>   'reg y x controls' runs OLS.  Stata prints:
+>     - Number of observations
+>     - F-statistic testing all slopes = 0
+>     - R-squared and Adjusted R-squared
+>     - For each variable: coefficient, standard error, t-statistic, p-value,
+>       and 95% confidence interval.
+>   The coefficient on ln_export_area is our β1 of interest.
+>   */
+.   estimates store col1   // store results under the name "col1"
+
+. 
+.   * ---------- Column (2): + geography controls ----------
+.   reg ln_maddison_pcgdp2000 ln_export_area `colony_fe' `geo_controls'
+
+      Source |       SS           df       MS      Number of obs   =        52
+-------------+----------------------------------   F(14, 37)       =      3.98
+       Model |  20.8798558        14  1.49141827   Prob > F        =    0.0004
+    Residual |   13.858718        37  .374559945   R-squared       =    0.6011
+-------------+----------------------------------   Adj R-squared   =    0.4501
+       Total |  34.7385738        51  .681148506   Root MSE        =    .61201
+
+-----------------------------------------------------------------------------------
+ln_maddison_~2000 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+------------------+----------------------------------------------------------------
+   ln_export_area |  -.0761698   .0290703    -2.62   0.013     -.135072   -.0172677
+          colony1 |   .8391803   .5516646     1.52   0.137    -.2785983    1.956959
+          colony2 |   .7651118    .559876     1.37   0.180    -.3693048    1.899528
+          colony3 |   .4488897   .5921531     0.76   0.453    -.7509264    1.648706
+          colony4 |   .0823373   .7699797     0.11   0.915     -1.47779    1.642464
+          colony5 |   2.137324   .8392093     2.55   0.015     .4369247    3.837724
+          colony6 |   1.340965   .9284735     1.44   0.157    -.5403014    3.222231
+          colony7 |   .7517891   .8325508     0.90   0.372    -.9351192    2.438697
+     abs_latitude |   .0158371   .0166931     0.95   0.349    -.0179864    .0496606
+        longitude |   .0004993   .0054898     0.09   0.928    -.0106241    .0116226
+         rain_min |  -.0006245   .0066801    -0.09   0.926    -.0141596    .0129106
+        humid_max |   .0094435   .0117831     0.80   0.428    -.0144312    .0333183
+         low_temp |  -.0188644   .0283503    -0.67   0.510    -.0763076    .0385788
+ln_coastline_area |   .0846569   .0387433     2.19   0.035     .0061556    .1631582
+            _cons |   5.944052    1.10816     5.36   0.000     3.698706    8.189398
+-----------------------------------------------------------------------------------
+
+.   estimates store col2
+
+. 
+.   * ---------- Column (3): geography + restricted sample ----------
+.   * Drop island countries and North African countries.
+.   * North Africa: Morocco(MAR), Algeria(DZA), Tunisia(TUN), Libya(LBY),
+.   *               Egypt(EGY)
+.   * Islands: Seychelles(SYC), Mauritius(MUS), Comoros(COM),
+.   *          Sao Tome & Principe(STP), Cape Verde(CPV)
+.   reg ln_maddison_pcgdp2000 ln_export_area `colony_fe' `geo_controls' ///
+>       if island_dum==0 & ///
+>          !inlist(isocode,"MAR","DZA","TUN","LBY","EGY",               ///
+>                          "SYC","MUS","COM","STP","CPV")
+expression too long
+r(130);
+
+end of do-file
+
+r(130);
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD01590.000000"
+
+. clear all
+
+. set more off
+
+. capture log close

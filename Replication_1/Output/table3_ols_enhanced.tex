@@ -1,0 +1,80 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{OLS Estimates - Slave Exports and Economic Development}
+\begin{tabular}{l*{6}{c}}
+\toprule
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+\midrule
+ln\_export\_area&      -0.112\sym{***}&      -0.076\sym{**} &      -0.108\sym{***}&      -0.085\sym{**} &      -0.103\sym{***}&      -0.123\sym{***}\\
+            &     (0.024)         &     (0.029)         &     (0.037)         &     (0.035)         &     (0.034)         &     (0.032)         \\
+\addlinespace
+colony1     &       0.362         &       0.839         &       0.914\sym{*}  &       1.250\sym{**} &       1.075\sym{*}  &       0.714\sym{*}  \\
+            &     (0.475)         &     (0.552)         &     (0.494)         &     (0.579)         &     (0.551)         &     (0.414)         \\
+\addlinespace
+colony2     &       0.313         &       0.765         &       0.961\sym{*}  &       0.544         &       0.368         &       0.635         \\
+            &     (0.470)         &     (0.560)         &     (0.516)         &     (0.541)         &     (0.513)         &     (0.439)         \\
+\addlinespace
+colony3     &       0.211         &       0.449         &       1.033\sym{*}  &      -0.025         &      -0.103         &       0.726         \\
+            &     (0.531)         &     (0.592)         &     (0.591)         &     (0.585)         &     (0.560)         &     (0.501)         \\
+\addlinespace
+colony4     &      -0.889         &       0.082         &       0.348         &      -0.459         &      -0.590         &      -0.050         \\
+            &     (0.585)         &     (0.770)         &     (0.693)         &     (0.727)         &     (0.678)         &     (0.569)         \\
+\addlinespace
+colony5     &       1.656\sym{**} &       2.137\sym{**} &       2.113\sym{***}&       1.386         &       0.702         &       1.130         \\
+            &     (0.790)         &     (0.839)         &     (0.754)         &     (0.819)         &     (0.843)         &     (0.713)         \\
+\addlinespace
+colony6     &       0.862         &       1.341         &       1.325         &       1.581         &       1.693\sym{*}  &       1.287\sym{*}  \\
+            &     (0.793)         &     (0.928)         &     (0.881)         &     (0.956)         &     (0.901)         &     (0.731)         \\
+\addlinespace
+colony7     &       0.716         &       0.752         &       0.000         &       0.627         &       0.043         &       0.000         \\
+            &     (0.780)         &     (0.833)         &         (.)         &     (0.806)         &     (0.783)         &         (.)         \\
+\addlinespace
+abs\_latitude&                     &       0.016         &      -0.005         &       0.019         &       0.023         &       0.005         \\
+            &                     &     (0.017)         &     (0.020)         &     (0.018)         &     (0.017)         &     (0.016)         \\
+\addlinespace
+longitude   &                     &       0.000         &      -0.007         &      -0.004         &      -0.004         &      -0.008         \\
+            &                     &     (0.005)         &     (0.006)         &     (0.006)         &     (0.005)         &     (0.005)         \\
+\addlinespace
+rain\_min    &                     &      -0.001         &       0.008         &       0.000         &      -0.001         &       0.002         \\
+            &                     &     (0.007)         &     (0.008)         &     (0.007)         &     (0.006)         &     (0.007)         \\
+\addlinespace
+humid\_max   &                     &       0.009         &       0.008         &       0.009         &       0.015         &       0.014         \\
+            &                     &     (0.012)         &     (0.012)         &     (0.012)         &     (0.011)         &     (0.010)         \\
+\addlinespace
+low\_temp    &                     &      -0.019         &      -0.039         &      -0.005         &      -0.015         &      -0.042\sym{*}  \\
+            &                     &     (0.028)         &     (0.028)         &     (0.027)         &     (0.026)         &     (0.023)         \\
+\addlinespace
+ln\_coastline\_area&                     &       0.085\sym{**} &       0.092\sym{**} &       0.095\sym{**} &       0.082\sym{**} &       0.073\sym{**} \\
+            &                     &     (0.039)         &     (0.042)         &     (0.042)         &     (0.040)         &     (0.034)         \\
+\addlinespace
+island\_dum  &                     &                     &                     &      -0.398         &      -0.150         &                     \\
+            &                     &                     &                     &     (0.529)         &     (0.516)         &                     \\
+\addlinespace
+islam       &                     &                     &                     &      -0.008\sym{***}&      -0.006\sym{*}  &                     \\
+            &                     &                     &                     &     (0.003)         &     (0.003)         &                     \\
+\addlinespace
+legor\_fr    &                     &                     &                     &       0.755         &       0.643         &                     \\
+            &                     &                     &                     &     (0.503)         &     (0.470)         &                     \\
+\addlinespace
+region\_n    &                     &                     &                     &       0.382         &      -0.304         &                     \\
+            &                     &                     &                     &     (0.484)         &     (0.517)         &                     \\
+\addlinespace
+ln\_avg\_gold\_pop&                     &                     &                     &                     &       0.011         &       0.015         \\
+            &                     &                     &                     &                     &     (0.017)         &     (0.015)         \\
+\addlinespace
+ln\_avg\_oil\_pop&                     &                     &                     &                     &       0.078\sym{***}&       0.094\sym{***}\\
+            &                     &                     &                     &                     &     (0.027)         &     (0.023)         \\
+\addlinespace
+ln\_avg\_all\_diamonds\_pop&                     &                     &                     &                     &      -0.039         &      -0.033         \\
+            &                     &                     &                     &                     &     (0.043)         &     (0.037)         \\
+\addlinespace
+\_cons      &       7.215\sym{***}&       5.944\sym{***}&       6.509\sym{***}&       5.743\sym{***}&       6.024\sym{***}&       6.988\sym{***}\\
+            &     (0.467)         &     (1.108)         &     (1.110)         &     (1.094)         &     (1.055)         &     (0.936)         \\
+\midrule
+Observations&          52         &          52         &          42         &          52         &          52         &          42         \\
+R-squared   &       0.505         &       0.601         &       0.633         &       0.709         &       0.773         &       0.789         \\
+\bottomrule
+\multicolumn{7}{l}{\footnotesize Dependent variable: Log real GDP per capita in 2000. Standard errors in parentheses. * \(p<0.10\), ** \(p<0.05\), *** \(p<0.01\). All specifications include colonizer fixed effects.}\\
+\end{tabular}
+\end{table}

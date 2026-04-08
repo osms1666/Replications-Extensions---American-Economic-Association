@@ -1,0 +1,2095 @@
+--------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/oskarskorge/Documents/LUSEM/LUSEM/Advanced Analysis of Economic Change/Replication/R
+> eplication_2/Ouput/output.log
+  log type:  text
+ opened on:  18 Mar 2026, 20:54:13
+
+. do "/var/folders/gr/_w5pkbvd0yl6tfnrfbln25rw0000gn/T//SD08638.000000"
+
+. * AEA P&P Code Replication Files                                                        *  
+. * January 2021                                                                          * 
+. *****************************************************************************************
+. 
+. *****************************************************************************************
+. *two-stage least squares (2SLS/IV) for panel data                                       *
+. *parent-child estimates  (Table 1, Column (1))                                          *  
+. *****************************************************************************************
+. //working directory
+. clear 
+
+. clear matrix
+
+. use "aeapp_mobility_table1_and_summarystatistics.dta"
+
+. 
+. //parental wealth
+. global xlist isib_age sib_agesq isib_race 
+
+. global x2list ipar_wealth isib_educ isib_child isib_married isib_employ isib_occupation sib_pension is
+> ib_2home isib_computeruse isib_riskpref i.year sib_sex 
+
+. global ylist isib_famincome
+
+. 
+. xtivreg $ylist $xlist (isib_stocks=$x2list), first re ec2sls vce(cluster sib_id)
+
+First-stage EC2SLS  regression
+                                                 Number of obs    =     12,835
+                                                 Wald chi(41)     =        772
+                                                 Prob > chi2      =     0.0000
+
+                                       (Std. err. adjusted for clustering on sib_id)
+------------------------------------------------------------------------------------
+                   |               Robust
+       isib_stocks | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------------+----------------------------------------------------------------
+     ipar_wealth_d |    .039316   .2886288     0.14   0.892     -.526386    .6050181
+       isib_educ_d |  -.0038695   .0453181    -0.09   0.932    -.0926914    .0849524
+      isib_child_d |   .0674344   .0383328     1.76   0.079    -.0076964    .1425653
+    isib_married_d |   .4187177   .1312847     3.19   0.001     .1614044    .6760309
+     isib_employ_d |  -.0474875   .0889528    -0.53   0.593    -.2218316    .1268567
+ isib_occupation_d |   .0122436   .0870209     0.14   0.888    -.1583142    .1828014
+     sib_pension_d |   .5094481   .0951084     5.36   0.000     .3230391    .6958571
+      isib_2home_d |   .1767332   .0956387     1.85   0.065    -.0107152    .3641816
+isib_computeruse_d |   .2248123   .0701703     3.20   0.001     .0872809    .3623436
+   isib_riskpref_d |          0  (omitted)
+                   |
+            year_d |
+             2003  |          0  (empty)
+             2005  |   .0183107    .229286     0.08   0.936    -.4310816    .4677031
+             2007  |  -.1261664   .3925995    -0.32   0.748    -.8956472    .6433144
+             2009  |  -.2274958    .573957    -0.40   0.692    -1.352431    .8974393
+             2011  |  -.3361977   .7623818    -0.44   0.659    -1.830439    1.158043
+             2013  |  -.2728953   .9443186    -0.29   0.773    -2.123726    1.577935
+             2015  |  -.3253148   1.145189    -0.28   0.776    -2.569844    1.919214
+             2017  |  -.0517412   1.329282    -0.04   0.969    -2.657085    2.553603
+                   |
+         sib_sex_d |   .0996635   .1452672     0.69   0.493     -.185055     .384382
+     ipar_wealth_m |   .0156016   .0059883     2.61   0.009     .0038647    .0273384
+       isib_educ_m |   .1492767     .02709     5.51   0.000     .0961812    .2023721
+      isib_child_m |  -.0706204   .0456416    -1.55   0.122    -.1600763    .0188356
+    isib_married_m |  -.1835359   .1568297    -1.17   0.242    -.4909165    .1238447
+     isib_employ_m |  -.3736247   .1611417    -2.32   0.020    -.6894566   -.0577928
+ isib_occupation_m |   .3853041    .161123     2.39   0.017     .0695088    .7010995
+     sib_pension_m |   3.456745   .2243513    15.41   0.000     3.017024    3.896465
+      isib_2home_m |   .0596167   .1151206     0.52   0.605    -.1660156     .285249
+isib_computeruse_m |  -.2473177   .1282827    -1.93   0.054    -.4987472    .0041118
+   isib_riskpref_m |   .1627356   .0921291     1.77   0.077    -.0178342    .3433053
+                   |
+            year_m |
+             2003  |          0  (empty)
+             2005  |  -2.629357   .9662459    -2.72   0.007    -4.523164   -.7355501
+             2007  |   .0149912   .9410021     0.02   0.987    -1.829339    1.859321
+             2009  |  -.7125666   .8422779    -0.85   0.398    -2.363401    .9382677
+             2011  |  -1.628101   .9365839    -1.74   0.082    -3.463772    .2075697
+             2013  |    .530476   .9795173     0.54   0.588    -1.389343    2.450295
+             2015  |  -2.629476   .8763252    -3.00   0.003    -4.347041   -.9119098
+             2017  |  -1.460916   .9290679    -1.57   0.116    -3.281856    .3600234
+                   |
+         sib_sex_m |   .5439053   .1346615     4.04   0.000     .2799736    .8078369
+        isib_age_d |   .0428112   .1029214     0.42   0.677     -.158911    .2445334
+       sib_agesq_d |  -.0011415   .0006495    -1.76   0.079    -.0024145    .0001315
+       isib_race_d |  -.2928882   .5358955    -0.55   0.585    -1.343224    .7574476
+        isib_age_m |  -.2181093   .0825444    -2.64   0.008    -.3798934   -.0563253
+       sib_agesq_m |   .0030351   .0011335     2.68   0.007     .0008135    .0052568
+       isib_race_m |  -.2719001   .0803279    -3.38   0.001    -.4293398   -.1144604
+             _cons |    2.29105   1.498152     1.53   0.126    -.6452749    5.227374
+------------------------------------------------------------------------------------
+
+EC2SLS random-effects IV regression             Number of obs     =     12,835
+Group variable: sib_id                          Number of groups  =      1,948
+
+R-squared:                                      Obs per group:
+     Within  = 0.0045                                         min =          1
+     Between = 0.1855                                         avg =        6.6
+     Overall = 0.0768                                         max =          8
+
+
+                                                Wald chi2(4)      =     568.26
+corr(u_i, X) = 0 (assumed)                      Prob > chi2       =     0.0000
+
+                             (Std. err. adjusted for 2,737 clusters in sib_id)
+------------------------------------------------------------------------------
+             |               Robust
+isib_famin~e | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ isib_stocks |   .2501018   .0132395    18.89   0.000     .2241528    .2760507
+    isib_age |   .0765725   .0158817     4.82   0.000      .045445       .1077
+   sib_agesq |  -.0008617   .0002198    -3.92   0.000    -.0012924   -.0004309
+   isib_race |   -.185778   .0424552    -4.38   0.000    -.2689886   -.1025674
+       _cons |   9.852755   .2825238    34.87   0.000     9.299019    10.40649
+-------------+----------------------------------------------------------------
+     sigma_u |  .49113168
+     sigma_e |  1.6901458
+         rho |  .07786496   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+Endogenous: isib_stocks
+Exogenous:  isib_age sib_agesq isib_race ipar_wealth isib_educ isib_child
+            isib_married isib_employ isib_occupation sib_pension isib_2home
+            isib_computeruse isib_riskpref 2005.year 2007.year 2009.year
+            2011.year 2013.year 2015.year 2017.year sib_sex
+
+. outreg2 using parent2SLS, replace excel dec(4) 
+parent2SLS.xml
+dir : seeout
+
+. 
+. *****************************************************************************************
+. *first stage results                                                                    *
+. *parent-child estimates  (Table 2, Column (1))                                          *  
+. *****************************************************************************************
+. //first stage results
+. reg isib_stocks isib_age sib_agesq isib_race ipar_wealth isib_educ isib_child isib_married isib_employ
+>  isib_occupation sib_pension isib_2home isib_computeruse isib_riskpref sib_sex year2003 year2005 year2
+> 007 year2009 year2011 year2013 year2015 year2017 if e(sample)==1 
+note: year2017 omitted because of collinearity.
+
+      Source |       SS           df       MS      Number of obs   =    12,835
+-------------+----------------------------------   F(21, 12813)    =    117.67
+       Model |  30815.4749        21  1467.40357   Prob > F        =    0.0000
+    Residual |  159783.906    12,813  12.4704523   R-squared       =    0.1617
+-------------+----------------------------------   Adj R-squared   =    0.1603
+       Total |  190599.381    12,834  14.8511283   Root MSE        =    3.5314
+
+----------------------------------------------------------------------------------
+     isib_stocks | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-----------------+----------------------------------------------------------------
+        isib_age |  -.0259095   .0373138    -0.69   0.487      -.09905     .047231
+       sib_agesq |   .0005061   .0004998     1.01   0.311    -.0004736    .0014858
+       isib_race |  -.6097566    .075091    -8.12   0.000    -.7569462   -.4625671
+     ipar_wealth |   .0293239   .0066464     4.41   0.000     .0162959    .0423519
+       isib_educ |   .2760433    .018115    15.24   0.000     .2405353    .3115514
+      isib_child |  -.0653964   .0275523    -2.37   0.018    -.1194031   -.0113898
+    isib_married |   .0523181   .0908615     0.58   0.565    -.1257841    .2304202
+     isib_employ |  -.1497179   .0845572    -1.77   0.077    -.3154626    .0160268
+ isib_occupation |   .3619943   .0716365     5.05   0.000     .2215759    .5024126
+     sib_pension |   1.964262   .0775759    25.32   0.000     1.812202    2.116323
+      isib_2home |   .2543027   .0730448     3.48   0.001      .111124    .3974814
+isib_computeruse |   .1868936    .094277     1.98   0.047     .0020967    .3716905
+   isib_riskpref |   .2463281   .0647137     3.81   0.000     .1194796    .3731765
+         sib_sex |   .4910445    .095643     5.13   0.000       .30357     .678519
+        year2003 |   1.402428   .1811016     7.74   0.000     1.047442    1.757415
+        year2005 |   1.241242   .1394887     8.90   0.000     .9678233    1.514661
+        year2007 |     1.0578   .1343285     7.87   0.000     .7944958    1.321103
+        year2009 |   .8266602    .129504     6.38   0.000      .572813    1.080507
+        year2011 |   .5906211   .1270052     4.65   0.000     .3416719    .8395702
+        year2013 |    .580641   .1254159     4.63   0.000      .334807    .8264749
+        year2015 |  -.1819056   .1203932    -1.51   0.131    -.4178943    .0540831
+        year2017 |          0  (omitted)
+           _cons |  -4.240715   .7205997    -5.88   0.000    -5.653198   -2.828232
+----------------------------------------------------------------------------------
+
+. outreg2 using myparentfile, replace excel dec(4) 
+myparentfile.xml
+dir : seeout
+
+. 
+. ******************************************************************************************
+. * household income at life event for adult children                                      * 
+. * parent-child estimates (summary statistics)                                            *
+. ******************************************************************************************
+. ***household income when adult children have their firstborn child
+. tabstat firstchild if sample==1 & firstchild!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+  firstchild |  88188.66  1077.428     67737    -12075   2144064     10259
+--------------------------------------------------------------------------
+
+. 
+. //black sample
+. tabstat firstchild if sample==1 & isib_race==1 & firstchild!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+  firstchild |  56330.06  774.4134  46673.55     -1390    329986      3362
+--------------------------------------------------------------------------
+
+. 
+. //white sample
+. tabstat firstchild if sample==1 & isib_race==0 & firstchild!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+  firstchild |  103718.4  1522.939     81740    -12075   2144064      6897
+--------------------------------------------------------------------------
+
+. 
+. ***household income when adult children complete college
+. tabstat firstcollege if sample==1 & firstcollege!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+firstcollege |  73929.16  1045.468  60320.95      -203    973500      4417
+--------------------------------------------------------------------------
+
+. 
+. //black sample
+. tabstat firstcollege if sample==1 & isib_race==1 & firstcollege!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+firstcollege |  58292.59  1507.611     44400      -203    274700       880
+--------------------------------------------------------------------------
+
+. 
+. //white sample
+. tabstat firstcollege if sample==1 & isib_race==0 & firstcollege!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+firstcollege |  77819.51  1242.004     63940       440    973500      3537
+--------------------------------------------------------------------------
+
+. 
+. ***household income when adult children enter their first marriage 
+. tabstat firstmarriage if sample==1 & firstmarriage!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+firstmarri~e |  74779.28  537.9047     64774  -62007.9   1070300     10909
+--------------------------------------------------------------------------
+
+. 
+. //black sample
+. tabstat firstmarriage if sample==1 & isib_race==1 & firstmarriage!=0, stat(mean semean median min max 
+> n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+firstmarri~e |  60865.45  681.8604     56146     -4170    198000      3043
+--------------------------------------------------------------------------
+
+. 
+. //white sample
+. tabstat firstmarriage if sample==1 & isib_race==0 & firstmarriage!=0, stat(mean semean median min max 
+> n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+firstmarri~e |  80161.91     688.3     68200  -62007.9   1070300      7866
+--------------------------------------------------------------------------
+
+. 
+. ***household income when adult children turn forty 
+. tabstat firstforty if sample==1 & firstforty!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+  firstforty |  100253.2  1289.847  85614.27       735    717600      3607
+--------------------------------------------------------------------------
+
+. 
+. //black sample
+. tabstat firstforty if sample==1 &  isib_race==1 & firstforty!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+  firstforty |  69979.42  1619.728     55000       735    415620      1193
+--------------------------------------------------------------------------
+
+. 
+. //white sample
+. tabstat firstforty if sample==1 & isib_race==0 & firstforty!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+  firstforty |  115214.5  1671.528    101100      1092    717600      2414
+--------------------------------------------------------------------------
+
+. 
+. ***household income when adult children become first time homeowner 
+. tabstat firsthome if sample==1 & firsthome!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+   firsthome |  68886.31  528.0144     60000 -133015.1   1070300     11507
+--------------------------------------------------------------------------
+
+. 
+. //black sample
+. tabstat firsthome if sample==1 & isib_race==1 & firsthome!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+   firsthome |  53262.16  596.7927   47548.8 -133015.1    200160      3445
+--------------------------------------------------------------------------
+
+. 
+. //white sample
+. tabstat firsthome if sample==1 & isib_race==0 & firsthome!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+   firsthome |  75562.71  696.0633     65100  -62007.9   1070300      8062
+--------------------------------------------------------------------------
+
+. 
+. ***household income when adult children form their own household 
+. tabstat ownhousehold if sample==1 & ownhousehold!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+ownhousehold |  42774.61  330.9457     35040    -43952    444800     12263
+--------------------------------------------------------------------------
+
+. 
+. //black sample
+. tabstat ownhousehold if sample==1 & isib_race==1 & ownhousehold!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+ownhousehold |  29073.48  411.9503     23972    -27800    273747      4004
+--------------------------------------------------------------------------
+
+. 
+. //white sample
+. tabstat ownhousehold if sample==1 & isib_race==0 & ownhousehold!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+ownhousehold |  49416.98  430.3822   41763.6    -43952    444800      8259
+--------------------------------------------------------------------------
+
+. 
+. ******************************************************************************************
+. * parental transfers and income prospects                                                * 
+. * parent-child estimates (summary statistics)                                            *
+. ******************************************************************************************
+. ***household income when adult children received post-secondary support from parents
+. ///received money
+> tabstat schoolmoney if sample==1, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+ schoolmoney |  129791.9  3405.113    100380       525   3481800      4297
+--------------------------------------------------------------------------
+
+. 
+. //black sample
+. tabstat schoolmoney if sample==1 & isib_race==1, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+ schoolmoney |  78350.51  1978.083     66150    3202.5    286650       662
+--------------------------------------------------------------------------
+
+. 
+. //white sample
+. tabstat schoolmoney if sample==1 & isib_race==0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+ schoolmoney |  139160.3  3989.601  107118.9       525   3481800      3635
+--------------------------------------------------------------------------
+
+. 
+. ///did not receive money
+> tabstat noschoolmoney if sample==1 & noschoolmoney!=0 , stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+noschoolmo~y |  82802.94  681.1608     69300    -12075    848400      9774
+--------------------------------------------------------------------------
+
+. 
+. //black sample
+. tabstat noschoolmoney if sample==1 & isib_race==1 & noschoolmoney!=0 , stat(mean semean median min max
+>  n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+noschoolmo~y |  58451.69   817.388   43100.4      -735    336000      3697
+--------------------------------------------------------------------------
+
+. 
+. //white sample
+. tabstat noschoolmoney if sample==1 & isib_race==0 & noschoolmoney!=0, stat(mean semean median min max 
+> n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+noschoolmo~y |  97617.26  926.0498     86310    -12075    848400      6077
+--------------------------------------------------------------------------
+
+. 
+. ***household income when adult children received house purchase support from parents 
+. ///received support
+> tabstat housemoney if sample==1,  stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+  housemoney |  142770.9  7340.423    105105      3990   3383100      1339
+--------------------------------------------------------------------------
+
+. 
+. //black sample
+. tabstat housemoney if sample==1 & isib_race==1,  stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+  housemoney |  85780.86  4878.735   84031.5      3990    286650       131
+--------------------------------------------------------------------------
+
+. 
+. //white sample
+. tabstat housemoney if sample==1 & isib_race==0,  stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+  housemoney |  148951.1  8099.732    110250     14700   3383100      1208
+--------------------------------------------------------------------------
+
+. 
+. ///did not received money
+> tabstat nohousemoney if sample==1 & nohousemoney!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+nohousemoney |  93792.85  1305.112  73505.25    -12075   3481800     12093
+--------------------------------------------------------------------------
+
+. 
+. //black sample
+. tabstat nohousemoney if sample==1 & isib_race==1 & nohousemoney!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+nohousemoney |  59387.94  761.2767   45664.5      -735    336000      4102
+--------------------------------------------------------------------------
+
+. 
+. //white sample
+. tabstat nohousemoney if sample==1 & isib_race==0 & nohousemoney!=0, stat(mean semean median min max n)
+
+    Variable |      Mean  se(mean)       p50       Min       Max         N
+-------------+------------------------------------------------------------
+nohousemoney |  111453.8  1906.109  90084.75    -12075   3481800      7991
+--------------------------------------------------------------------------
+
+. 
+. ***************************************************************************************** 
+. * oaxaca-blinder decomposition                                                          *
+. * parent-child estimates (Table 3, Panel A)                                             *  
+. *****************************************************************************************
+. keep if year==2017 
+(71,717 observations deleted)
+
+. 
+. *IHS applied to household income ;
+. sort isib_race //non-Latino Black=1, non-Latino White=0
+
+. sum isib_famincome if isib_race==0  [aw=sib_famweight], detail
+
+                      Household Income
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     7.937375              0
+ 5%     10.08581              0
+10%     10.71885              0       Obs               1,579
+25%     11.41333              0       Sum of wgt.  42,706.636
+
+50%      12.0607                      Mean           11.84587
+                        Largest       Std. dev.      1.444176
+75%     12.52888       14.84584
+90%     12.94324       14.89051       Variance       2.085644
+95%     13.21403       15.23621       Skewness      -4.955295
+99%     13.94654       15.31025       Kurtosis       40.86775
+
+. gen f90=r(p90)
+
+. gen f50=r(p50)
+
+. gen f10=r(p10)
+
+. sum isib_famincome if isib_race==1  [aw=sib_famweight], detail
+
+                      Household Income
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0      -6.006359
+ 5%     7.863267              0
+10%     9.777925              0       Obs               1,115
+25%     10.60262              0       Sum of wgt.   10,213.28
+
+50%     11.31196                      Mean           10.87046
+                        Largest       Std. dev.      2.341041
+75%     11.97035       13.34102
+90%     12.40574       13.45941       Variance       5.480471
+95%     12.60614       13.59237       Skewness      -3.742622
+99%     13.06833       13.63067       Kurtosis       18.44501
+
+. gen m90=r(p90)
+
+. gen m50=r(p50)
+
+. gen m10=r(p10)
+
+. gen dif90=m90-f90
+
+. gen dif50=m50-f50
+
+. gen dif10=m10-f10
+
+. di "  m-f q10 =" dif10 "  m-f q50 =" dif50 "  m-f q90 ="  dif90
+  m-f q10 =-.94092751  m-f q50 =-.74874115  m-f q90 =-.53749371
+
+. 
+. **perform the RIF decomposition
+. *** graph the densities to check bandwidth ;
+. kdensity isib_famincome if isib_race==0  [aw=sib_famweight], gen(evalw1 densw1) width(0.10) 
+
+. kdensity isib_famincome if isib_race==1  [aw=sib_famweight], gen(evalb1 densb1) width(0.10)  
+
+. *
+. set scheme s1color
+
+. label var evalb "IHS Income"
+
+. label var evalw "IHS Income"
+
+. graph twoway  (connected densb1 evalb1, msymbol(i) lpattern(dash) clwidth(medium) lc(red) )  /*
+>    */   (connected densw1  evalw1, msymbol(i) lpattern(longdash) clwidth(medium) lc(blue) )  /*
+>    */   , ytitle("Density")ylabel(0.0 0.2 0.4 0.6 0.8 1.0) /*
+>    */   xlabel(1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5)  /* 
+>    */   legend(pos(7) col(2) lab(1 "Black")  lab(2 "White")    /*
+>    */   region(lstyle(none)) symxsize(8) keygap(1) textwidth(34) ) /*
+>    */   saving(ExtFamIncMobility,replace)
+file ExtFamIncMobility.gph saved
+
+.    
+. * compute RIF for the 10th, 50th and 90th quantiles for blacks and whites ;
+. forvalues qt = 10(40)90 {       
+  2.    gen rif_`qt'=.
+  3. }
+(2,694 missing values generated)
+(2,694 missing values generated)
+(2,694 missing values generated)
+
+. pctile eval1=isib_famincome if isib_race==0  [aw=sib_famweight], nq(100) 
+
+. kdensity isib_famincome if isib_race==0  [aw=sib_famweight], at(eval1) gen(evalw densw) width(0.10) no
+> graph 
+
+. forvalues qt = 10(40)90 {       
+  2.  local qc = `qt'/100.0
+  3.  replace rif_`qt'=evalw[`qt']+`qc'/densw[`qt'] if isib_famincome>=evalw[`qt'] & isib_race==0
+  4.  replace rif_`qt'=evalw[`qt']-(1-`qc')/densw[`qt'] if isib_famincome<evalw[`qt'] & isib_race==0
+  5. }
+(1,462 real changes made)
+(117 real changes made)
+(870 real changes made)
+(709 real changes made)
+(170 real changes made)
+(1,409 real changes made)
+
+. pctile eval2=isib_famincome if isib_race==1  [aw=sib_famweight], nq(100) 
+
+. kdensity isib_famincome if isib_race==1  [aw=sib_famweight], at(eval2) gen(evalb densb) width(0.10) no
+> graph 
+
+. forvalues qt = 10(40)90 {       
+  2.  local qc = `qt'/100.0
+  3.  replace rif_`qt'=evalb[`qt']+`qc'/densb[`qt'] if isib_famincome>=evalb[`qt'] & isib_race==1
+  4.  replace rif_`qt'=evalb[`qt']-(1-`qc')/densb[`qt'] if isib_famincome<evalb[`qt'] & isib_race==1
+  5. }
+(1,012 real changes made)
+(103 real changes made)
+(590 real changes made)
+(525 real changes made)
+(101 real changes made)
+(1,014 real changes made)
+
+. sort isib_race
+
+. by isib_race: sum rif_10 rif_50 rif_90  [aw=sib_famweight]
+
+--------------------------------------------------------------------------------------------------------
+-> isib_race = 0
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      rif_10 |   1,579  42706.6359    10.72105    2.50016   3.211959   11.55295
+      rif_50 |   1,579  42706.6359    12.06088   1.071104   10.98994   13.13146
+      rif_90 |   1,579  42706.6359    12.94492   1.341034   12.49711   16.95835
+
+--------------------------------------------------------------------------------------------------------
+-> isib_race = 1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      rif_10 |   1,115    10213.28    9.783578   2.383935   2.606661   10.57473
+      rif_50 |   1,115    10213.28    11.31845   1.239907   10.07259   12.55133
+      rif_90 |   1,115    10213.28    12.40713   1.189731   12.00996   15.96778
+
+
+. ** perform oaxaca decomposition;
+. gen bwrace=.
+(2,694 missing values generated)
+
+. replace bwrace=0 if isib_race==0
+(1,579 real changes made)
+
+. replace bwrace=1 if isib_race==1
+(1,115 real changes made)
+
+. 
+. *mean
+. global xlist isib_educ ipar_inc ipar_wealth  isib_child isib_age sib_agesq  isib_married isib_employ s
+> ib_sex isib_occupation
+
+. global ylist isib_famincome 
+
+. 
+. oaxaca $ylist $xlist [aw=sib_famweight] if sample==1, by(bwrace) xb detail threefold(reverse) noisily
+
+Model for group 1
+(sum of wgt is 32,353.8299175501)
+
+      Source |       SS           df       MS      Number of obs   =     1,214
+-------------+----------------------------------   F(10, 1203)     =     65.76
+       Model |  547.375046        10  54.7375046   Prob > F        =    0.0000
+    Residual |  1001.39446     1,203  .832414344   R-squared       =    0.3534
+-------------+----------------------------------   Adj R-squared   =    0.3481
+       Total |   1548.7695     1,213  1.27680915   Root MSE        =    .91237
+
+---------------------------------------------------------------------------------
+ isib_famincome | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .1087104   .0141323     7.69   0.000     .0809836    .1364371
+       ipar_inc |   .3939083   .0526662     7.48   0.000     .2905805    .4972362
+    ipar_wealth |  -.0117263   .0072809    -1.61   0.108     -.026011    .0025583
+     isib_child |   .0380612    .023698     1.61   0.109    -.0084328    .0845552
+       isib_age |   .2074197   .0641737     3.23   0.001     .0815148    .3333245
+      sib_agesq |  -.0023505    .000738    -3.18   0.001    -.0037985   -.0009026
+   isib_married |   .5469131   .0719449     7.60   0.000     .4057616    .6880646
+    isib_employ |   .6246105   .0756558     8.26   0.000     .4761786    .7730424
+        sib_sex |   .4228442    .082365     5.13   0.000     .2612492    .5844392
+isib_occupation |   -.169396   .0687629    -2.46   0.014    -.3043045   -.0344875
+          _cons |  -.1049514   1.566484    -0.07   0.947    -3.178295    2.968392
+---------------------------------------------------------------------------------
+
+Model for group 2
+(sum of wgt is 5,259.69000154734)
+
+      Source |       SS           df       MS      Number of obs   =       595
+-------------+----------------------------------   F(10, 584)      =     33.81
+       Model |  1248.76126        10  124.876126   Prob > F        =    0.0000
+    Residual |  2157.28945       584  3.69398878   R-squared       =    0.3666
+-------------+----------------------------------   Adj R-squared   =    0.3558
+       Total |  3406.05071       594  5.73409211   Root MSE        =     1.922
+
+---------------------------------------------------------------------------------
+ isib_famincome | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .1178686   .0431902     2.73   0.007     .0330416    .2026956
+       ipar_inc |   .1906826   .1308648     1.46   0.146    -.0663404    .4477055
+    ipar_wealth |   .0031633   .0158605     0.20   0.842    -.0279872    .0343139
+     isib_child |   .1277139   .0778243     1.64   0.101    -.0251358    .2805636
+       isib_age |     .36736   .1849389     1.99   0.047     .0041336    .7305863
+      sib_agesq |  -.0043659    .002106    -2.07   0.039    -.0085023   -.0002296
+   isib_married |   1.510238   .2236238     6.75   0.000     1.071033    1.949443
+    isib_employ |   1.117585   .2290533     4.88   0.000     .6677164    1.567453
+        sib_sex |  -.9790742   .1992172    -4.91   0.000    -1.370344   -.5878048
+isib_occupation |  -1.927716   .2585328    -7.46   0.000    -2.435483   -1.419949
+          _cons |  -.9455597   4.176994    -0.23   0.821    -9.149319    7.258199
+---------------------------------------------------------------------------------
+
+Blinder-Oaxaca decomposition                    Number of obs     =      1,809
+                                                Model             =     linear
+Group 1: bwrace = 0                             N of obs 1        =      1,214
+Group 2: bwrace = 1                             N of obs 2        =        595
+
+   endowments: (X1 - X2) * b1
+ coefficients: X1 * (b1 - b2)
+  interaction: (X1 - X2) * (b2 - b1)
+
+---------------------------------------------------------------------------------
+ isib_famincome | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+overall         |
+        group_1 |   12.04671   .0325175   370.47   0.000     11.98298    12.11044
+        group_2 |   11.12607   .0986998   112.73   0.000     10.93262    11.31952
+     difference |   .9206384   .1039184     8.86   0.000     .7169621    1.124315
+     endowments |    .586261   .0475741    12.32   0.000     .4930174    .6795046
+   coefficients |   .4243359   .1218636     3.48   0.000     .1854875    .6631842
+    interaction |  -.0899585   .1048977    -0.86   0.391    -.2955541    .1156372
+----------------+----------------------------------------------------------------
+endowments      |
+      isib_educ |   .0991503   .0170491     5.82   0.000     .0657346     .132566
+       ipar_inc |   .2266367    .032959     6.88   0.000     .1620382    .2912351
+    ipar_wealth |  -.0301136   .0189366    -1.59   0.112    -.0672286    .0070014
+     isib_child |   .0103754   .0068262     1.52   0.129    -.0030036    .0237544
+       isib_age |  -.1502843   .0822316    -1.83   0.068    -.3114553    .0108866
+      sib_agesq |   .1508925   .0824294     1.83   0.067    -.0106662    .3124511
+   isib_married |     .15897   .0246008     6.46   0.000     .1107534    .2071866
+    isib_employ |    .034611   .0131464     2.63   0.008     .0088445    .0603774
+        sib_sex |    .091841   .0203904     4.50   0.000     .0518766    .1318054
+isib_occupation |  -.0058178   .0039597    -1.47   0.142    -.0135787    .0019431
+----------------+----------------------------------------------------------------
+coefficients    |
+      isib_educ |  -.1341318   .6655664    -0.20   0.840    -1.438618    1.170354
+       ipar_inc |   2.593834   1.800459     1.44   0.150    -.9350011    6.122669
+    ipar_wealth |  -.1871664   .2193798    -0.85   0.394    -.6171429    .2428101
+     isib_child |  -.0928831   .0843456    -1.10   0.271    -.2581975    .0724313
+       isib_age |  -6.877251   8.417363    -0.82   0.414    -23.37498    9.620478
+      sib_agesq |   3.810407   4.219253     0.90   0.366    -4.459177    12.07999
+   isib_married |  -.5858783   .1435063    -4.08   0.000    -.8671454   -.3046112
+    isib_employ |  -.4132476   .2022792    -2.04   0.041    -.8097076   -.0167875
+        sib_sex |   1.131829   .1747634     6.48   0.000     .7892991    1.474359
+isib_occupation |   .3382168   .0551717     6.13   0.000     .2300822    .4463513
+          _cons |   .8406082    4.46107     0.19   0.851    -7.902929    9.584145
+----------------+----------------------------------------------------------------
+interaction     |
+      isib_educ |   .0083529   .0414578     0.20   0.840     -.072903    .0896087
+       ipar_inc |  -.1169267   .0814374    -1.44   0.151    -.2765412    .0426877
+    ipar_wealth |   .0382372   .0449784     0.85   0.395    -.0499189    .1263933
+     isib_child |   .0244391   .0227769     1.07   0.283    -.0202028    .0690809
+       isib_age |  -.1158836   .1511689    -0.77   0.443    -.4121692    .1804021
+      sib_agesq |   .1293811   .1544936     0.84   0.402    -.1734209     .432183
+   isib_married |   .2800076   .0719944     3.89   0.000      .138901    .4211141
+    isib_employ |   .0273167   .0165946     1.65   0.100     -.005208    .0598415
+        sib_sex |  -.3044942   .0569614    -5.35   0.000    -.4161365   -.1928519
+isib_occupation |  -.0603885   .0342468    -1.76   0.078    -.1275109    .0067339
+---------------------------------------------------------------------------------
+
+Coefficients (b) and means (x)
+---------------------------------------------------------------------------------
+                | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+b1              |
+      isib_educ |   .1087104   .0141323     7.69   0.000     .0810115    .1364092
+       ipar_inc |   .3939083   .0526662     7.48   0.000     .2906845    .4971322
+    ipar_wealth |  -.0117263   .0072809    -1.61   0.107    -.0259966    .0025439
+     isib_child |   .0380612    .023698     1.61   0.108     -.008386    .0845084
+       isib_age |   .2074197   .0641737     3.23   0.001     .0816415    .3331978
+      sib_agesq |  -.0023505    .000738    -3.18   0.001     -.003797    -.000904
+   isib_married |   .5469131   .0719449     7.60   0.000     .4059036    .6879225
+    isib_employ |   .6246105   .0756558     8.26   0.000     .4763279    .7728931
+        sib_sex |   .4228442    .082365     5.13   0.000     .2614118    .5842767
+isib_occupation |   -.169396   .0687629    -2.46   0.014    -.3041687   -.0346232
+          _cons |  -.1049514   1.566484    -0.07   0.947    -3.175203      2.9653
+----------------+----------------------------------------------------------------
+b2              |
+      isib_educ |   .1178686   .0431902     2.73   0.006     .0332174    .2025198
+       ipar_inc |   .1906826   .1308648     1.46   0.145    -.0658077    .4471728
+    ipar_wealth |   .0031633   .0158605     0.20   0.842    -.0279226    .0342493
+     isib_child |   .1277139   .0778243     1.64   0.101     -.024819    .2802468
+       isib_age |     .36736   .1849389     1.99   0.047     .0048864    .7298335
+      sib_agesq |  -.0043659    .002106    -2.07   0.038    -.0084937   -.0002382
+   isib_married |   1.510238   .2236238     6.75   0.000     1.071943    1.948533
+    isib_employ |   1.117585   .2290533     4.88   0.000     .6686487    1.566521
+        sib_sex |  -.9790742   .1992172    -4.91   0.000    -1.369533   -.5886157
+isib_occupation |  -1.927716   .2585328    -7.46   0.000    -2.434431   -1.421001
+          _cons |  -.9455597   4.176994    -0.23   0.821    -9.132317    7.241197
+----------------+----------------------------------------------------------------
+x1              |
+      isib_educ |   14.64601   .0592205   247.31   0.000     14.52994    14.76208
+       ipar_inc |   12.76331   .0165784   769.88   0.000     12.73082     12.7958
+    ipar_wealth |   12.57022   .1132663   110.98   0.000     12.34823    12.79222
+     isib_child |   1.036032    .036028    28.76   0.000     .9654185    1.106646
+       isib_age |   42.99886   .1854567   231.85   0.000     42.63537    43.36235
+      sib_agesq |   1890.622   16.15674   117.02   0.000     1858.955    1922.288
+   isib_married |   .6081835   .0140161    43.39   0.000     .5807124    .6356546
+    isib_employ |   .8382738   .0105719    79.29   0.000     .8175533    .8589944
+        sib_sex |   .8073431   .0113238    71.30   0.000     .7851489    .8295373
+isib_occupation |   .1923522   .0113169    17.00   0.000     .1701714     .214533
+          _cons |          1          .        .       .            .           .
+----------------+----------------------------------------------------------------
+x2              |
+      isib_educ |   13.73395   .0838487   163.79   0.000     13.56961    13.89829
+       ipar_inc |   12.18796    .028435   428.62   0.000     12.13223    12.24369
+    ipar_wealth |   10.00219   .2293236    43.62   0.000     9.552721    10.45165
+     isib_child |   .7634349   .0453875    16.82   0.000      .674477    .8523928
+       isib_age |    43.7234   .2693101   162.35   0.000     43.19556    44.25124
+      sib_agesq |   1954.817   23.71692    82.42   0.000     1908.333    2001.302
+   isib_married |   .3175157   .0191001    16.62   0.000     .2800802    .3549512
+    isib_employ |   .7828617   .0169168    46.28   0.000     .7497055     .816018
+        sib_sex |   .5901449   .0201791    29.25   0.000     .5505946    .6296951
+isib_occupation |   .1580078   .0149658    10.56   0.000     .1286754    .1873402
+          _cons |          1          .        .       .            .           .
+---------------------------------------------------------------------------------
+
+. outreg2 using testOaxacaIHS, replace excel dec(4) 
+testOaxacaIHS.xml
+dir : seeout
+
+. 
+. *proportional
+. oaxaca rif_10 $xlist [aw=sib_famweight] if sample==1, by(bwrace) detail threefold(reverse) noisily
+
+Model for group 1
+(sum of wgt is 32,353.8299175501)
+
+      Source |       SS           df       MS      Number of obs   =     1,214
+-------------+----------------------------------   F(10, 1203)     =     37.98
+       Model |  1322.28612        10  132.228612   Prob > F        =    0.0000
+    Residual |    4187.961     1,203  3.48126434   R-squared       =    0.2400
+-------------+----------------------------------   Adj R-squared   =    0.2337
+       Total |  5510.24712     1,213  4.54266045   Root MSE        =    1.8658
+
+---------------------------------------------------------------------------------
+         rif_10 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .0756847    .028901     2.62   0.009     .0189828    .1323865
+       ipar_inc |   .5674909   .1077037     5.27   0.000     .3561829     .778799
+    ipar_wealth |  -.0233639   .0148896    -1.57   0.117    -.0525764    .0058485
+     isib_child |    .129175    .048463     2.67   0.008     .0340936    .2242564
+       isib_age |   .1574937   .1312368     1.20   0.230    -.0999849    .4149722
+      sib_agesq |  -.0020479   .0015093    -1.36   0.175     -.005009    .0009132
+   isib_married |   .8454241   .1471292     5.75   0.000     .5567658    1.134083
+    isib_employ |   1.461653    .154718     9.45   0.000     1.158106      1.7652
+        sib_sex |   .2196955   .1684385     1.30   0.192    -.1107705    .5501615
+isib_occupation |  -.7940946   .1406218    -5.65   0.000    -1.069986   -.5182033
+          _cons |  -1.888278   3.203499    -0.59   0.556    -8.173345    4.396788
+---------------------------------------------------------------------------------
+
+Model for group 2
+(sum of wgt is 5,259.69000154734)
+
+      Source |       SS           df       MS      Number of obs   =       595
+-------------+----------------------------------   F(10, 584)      =     18.77
+       Model |  563.754411        10  56.3754411   Prob > F        =    0.0000
+    Residual |  1754.07527       584  3.00355354   R-squared       =    0.2432
+-------------+----------------------------------   Adj R-squared   =    0.2303
+       Total |  2317.82968       594  3.90207017   Root MSE        =    1.7331
+
+---------------------------------------------------------------------------------
+         rif_10 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .0745199   .0389453     1.91   0.056      -.00197    .1510097
+       ipar_inc |   -.005424   .1180029    -0.05   0.963    -.2371858    .2263378
+    ipar_wealth |  -.0083719   .0143017    -0.59   0.559    -.0364609     .019717
+     isib_child |   -.091766   .0701755    -1.31   0.192     -.229593    .0460611
+       isib_age |   .2526825   .1667624     1.52   0.130    -.0748446    .5802096
+      sib_agesq |  -.0030376    .001899    -1.60   0.110    -.0067674    .0006922
+   isib_married |   .6909141   .2016453     3.43   0.001     .2948759    1.086952
+    isib_employ |   .7694839   .2065411     3.73   0.000     .3638301    1.175138
+        sib_sex |  -.3212321   .1796374    -1.79   0.074    -.6740461    .0315819
+isib_occupation |  -1.639401   .2331232    -7.03   0.000    -2.097263   -1.181539
+          _cons |   3.764569   3.766463     1.00   0.318    -3.632894    11.16203
+---------------------------------------------------------------------------------
+
+Blinder-Oaxaca decomposition                    Number of obs     =      1,809
+                                                Model             =     linear
+Group 1: bwrace = 0                             N of obs 1        =      1,214
+Group 2: bwrace = 1                             N of obs 2        =        595
+
+   endowments: (X1 - X2) * b1
+ coefficients: X1 * (b1 - b2)
+  interaction: (X1 - X2) * (b2 - b1)
+
+---------------------------------------------------------------------------------
+         rif_10 | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+overall         |
+        group_1 |   10.96772    .061364   178.73   0.000     10.84745    11.08799
+        group_2 |   10.05148   .0815051   123.32   0.000     9.891733    10.21123
+     difference |   .9162385   .1020226     8.98   0.000     .7162778    1.116199
+     endowments |   .7352805   .0855001     8.60   0.000     .5677033    .9028576
+   coefficients |    .768597   .1192484     6.45   0.000     .5348744    1.002319
+    interaction |  -.5876389   .1059287    -5.55   0.000    -.7952554   -.3800225
+----------------+----------------------------------------------------------------
+endowments      |
+      isib_educ |   .0690289   .0274805     2.51   0.012     .0151681    .1228897
+       ipar_inc |   .3265081   .0647218     5.04   0.000     .1996557    .4533604
+    ipar_wealth |  -.0599994   .0387011    -1.55   0.121    -.1358522    .0158534
+     isib_child |   .0352127   .0151842     2.32   0.020     .0054522    .0649733
+       isib_age |  -.1141108   .1081369    -1.06   0.291    -.3260553    .0978337
+      sib_agesq |   .1314654    .113319     1.16   0.246    -.0906358    .3535666
+   isib_married |   .2457376   .0472236     5.20   0.000      .153181    .3382941
+    isib_employ |   .0809933    .030392     2.66   0.008      .021426    .1405605
+        sib_sex |   .0477175   .0369361     1.29   0.196    -.0246759    .1201108
+isib_occupation |  -.0272727   .0156628    -1.74   0.082    -.0579711    .0034257
+----------------+----------------------------------------------------------------
+coefficients    |
+      isib_educ |     .01706   .7102937     0.02   0.981     -1.37509     1.40921
+       ipar_inc |   7.312291    2.03915     3.59   0.000     3.315632    11.30895
+    ipar_wealth |  -.1884529   .2595242    -0.73   0.468     -.697111    .3202052
+     isib_child |   .2289019   .0887142     2.58   0.010     .0550253    .4027785
+       isib_age |   -4.09301   9.124777    -0.45   0.654    -21.97724    13.79122
+      sib_agesq |   1.871146   4.586219     0.41   0.683    -7.117678    10.85997
+   isib_married |   .0939704   .1518274     0.62   0.536    -.2036057    .3915466
+    isib_employ |   .5802271   .2164518     2.68   0.007     .1559895    1.004465
+        sib_sex |   .4367142    .198906     2.20   0.028     .0468657    .8265627
+isib_occupation |   .1625966   .0532348     3.05   0.002     .0582583    .2669348
+          _cons |  -5.652847   4.944558    -1.14   0.253      -15.344    4.038308
+----------------+----------------------------------------------------------------
+interaction     |
+      isib_educ |  -.0010624   .0442327    -0.02   0.981    -.0877568    .0856321
+       ipar_inc |  -.3296288   .0938356    -3.51   0.000    -.5135432   -.1457143
+    ipar_wealth |      .0385   .0531569     0.72   0.469    -.0656856    .1426856
+     isib_child |  -.0602279   .0265404    -2.27   0.023    -.1122461   -.0082097
+       isib_age |  -.0689683   .1568736    -0.44   0.660    -.3764349    .2384982
+      sib_agesq |   .0635341   .1582914     0.40   0.688    -.2467113    .3737796
+   isib_married |  -.0449111   .0726474    -0.62   0.536    -.1872974    .0974752
+    isib_employ |  -.0383545   .0198781    -1.93   0.054    -.0773149    .0006058
+        sib_sex |  -.1174885    .054931    -2.14   0.032    -.2251513   -.0098257
+isib_occupation |  -.0290316   .0184115    -1.58   0.115    -.0651174    .0070543
+---------------------------------------------------------------------------------
+
+. outreg2 using testOaxacaIHS10, replace excel dec(4) 
+testOaxacaIHS10.xml
+dir : seeout
+
+. 
+. oaxaca rif_50 $xlist [aw=sib_famweight] if sample==1, by(bwrace)  detail threefold(reverse) noisily
+
+Model for group 1
+(sum of wgt is 32,353.8299175501)
+
+      Source |       SS           df       MS      Number of obs   =     1,214
+-------------+----------------------------------   F(10, 1203)     =     63.40
+       Model |  470.208588        10  47.0208588   Prob > F        =    0.0000
+    Residual |  892.173933     1,203  .741624217   R-squared       =    0.3451
+-------------+----------------------------------   Adj R-squared   =    0.3397
+       Total |  1362.38252     1,213   1.1231513   Root MSE        =    .86118
+
+---------------------------------------------------------------------------------
+         rif_50 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .1106289   .0133394     8.29   0.000     .0844578    .1367999
+       ipar_inc |   .3259215   .0497112     6.56   0.000     .2283912    .4234518
+    ipar_wealth |    -.01095   .0068724    -1.59   0.111    -.0244331    .0025332
+     isib_child |   .0204893   .0223683     0.92   0.360     -.023396    .0643746
+       isib_age |   .1514632    .060573     2.50   0.013     .0326227    .2703037
+      sib_agesq |  -.0016139   .0006966    -2.32   0.021    -.0029806   -.0002472
+   isib_married |   .6749109   .0679082     9.94   0.000     .5416792    .8081426
+    isib_employ |   .4557441   .0714109     6.38   0.000     .3156404    .5958477
+        sib_sex |   .2380696   .0777436     3.06   0.002     .0855414    .3905978
+isib_occupation |   .1551789   .0649047     2.39   0.017     .0278399    .2825179
+          _cons |   2.076912   1.478591     1.40   0.160    -.8239922    4.977815
+---------------------------------------------------------------------------------
+
+Model for group 2
+(sum of wgt is 5,259.69000154734)
+
+      Source |       SS           df       MS      Number of obs   =       595
+-------------+----------------------------------   F(10, 584)      =     35.33
+       Model |  330.476115        10  33.0476115   Prob > F        =    0.0000
+    Residual |  546.286398       584  .935421915   R-squared       =    0.3769
+-------------+----------------------------------   Adj R-squared   =    0.3663
+       Total |  876.762514       594  1.47603117   Root MSE        =    .96717
+
+---------------------------------------------------------------------------------
+         rif_50 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |    .152204   .0217341     7.00   0.000     .1095175    .1948904
+       ipar_inc |   .0486037   .0658535     0.74   0.461    -.0807348    .1779422
+    ipar_wealth |    .017268   .0079813     2.16   0.031     .0015925    .0329435
+     isib_child |   .0152478   .0391626     0.39   0.697    -.0616689    .0921644
+       isib_age |   .2285333   .0930645     2.46   0.014     .0457514    .4113153
+      sib_agesq |  -.0024759   .0010598    -2.34   0.020    -.0045574   -.0003945
+   isib_married |   1.016419   .1125315     9.03   0.000     .7954033    1.237435
+    isib_employ |   .5521403   .1152637     4.79   0.000     .3257585    .7785222
+        sib_sex |  -.3094408   .1002496    -3.09   0.002    -.5063345   -.1125471
+isib_occupation |  -.2703371   .1300983    -2.08   0.038    -.5258546   -.0148196
+          _cons |   3.012904   2.101938     1.43   0.152    -1.115373    7.141182
+---------------------------------------------------------------------------------
+
+Blinder-Oaxaca decomposition                    Number of obs     =      1,809
+                                                Model             =     linear
+Group 1: bwrace = 0                             N of obs 1        =      1,214
+Group 2: bwrace = 1                             N of obs 2        =        595
+
+   endowments: (X1 - X2) * b1
+ coefficients: X1 * (b1 - b2)
+  interaction: (X1 - X2) * (b2 - b1)
+
+---------------------------------------------------------------------------------
+         rif_50 | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+overall         |
+        group_1 |   12.21662   .0304992   400.56   0.000     12.15684     12.2764
+        group_2 |   11.56192   .0500719   230.91   0.000     11.46378    11.66006
+     difference |    .654697   .0586293    11.17   0.000     .5397857    .7696083
+     endowments |    .538216   .0433546    12.41   0.000     .4532425    .6231895
+   coefficients |   .1965102   .0640149     3.07   0.002     .0710433    .3219772
+    interaction |  -.0800292   .0553533    -1.45   0.148    -.1885198    .0284613
+----------------+----------------------------------------------------------------
+endowments      |
+      isib_educ |   .1009001   .0166429     6.06   0.000     .0682805    .1335196
+       ipar_inc |   .1875202   .0305472     6.14   0.000     .1276488    .2473916
+    ipar_wealth |    -.02812   .0178693    -1.57   0.116    -.0631432    .0069032
+     isib_child |   .0055853   .0062121     0.90   0.369    -.0065901    .0177608
+       isib_age |  -.1097415   .0661743    -1.66   0.097    -.2394408    .0199578
+      sib_agesq |   .1036055   .0643808     1.61   0.108    -.0225785    .2297894
+   isib_married |   .1961749   .0254023     7.72   0.000     .1463873    .2459625
+    isib_employ |   .0252537   .0099152     2.55   0.011     .0058203    .0446872
+        sib_sex |   .0517083   .0177616     2.91   0.004     .0168961    .0865205
+isib_occupation |   .0053295   .0036669     1.45   0.146    -.0018575    .0125166
+----------------+----------------------------------------------------------------
+coefficients    |
+      isib_educ |   -.608909   .3734982    -1.63   0.103    -1.340952    .1231339
+       ipar_inc |   3.539493    1.05311     3.36   0.001     1.475436     5.60355
+    ipar_wealth |  -.3547066   .1324324    -2.68   0.007    -.6142694   -.0951439
+     isib_child |   .0054304   .0467259     0.12   0.907    -.0861507    .0970115
+       isib_age |  -3.313929   4.774657    -0.69   0.488    -12.67208    6.044226
+      sib_agesq |   1.629753   2.397807     0.68   0.497    -3.069863    6.329368
+   isib_married |  -.2076996   .0800791    -2.59   0.009    -.3646517   -.0507474
+    isib_employ |  -.0808065   .1136679    -0.71   0.477    -.3035915    .1419785
+        sib_sex |   .4420287   .1026089     4.31   0.000     .2409189    .6431386
+isib_occupation |    .081849   .0283776     2.88   0.004     .0262298    .1374681
+          _cons |  -.9359928   2.569897    -0.36   0.716    -5.972899    4.100914
+----------------+----------------------------------------------------------------
+interaction     |
+      isib_educ |   .0379189   .0236469     1.60   0.109    -.0084281    .0842659
+       ipar_inc |  -.1595558    .048342    -3.30   0.001    -.2543044   -.0648073
+    ipar_wealth |   .0724649   .0279938     2.59   0.010      .017598    .1273317
+     isib_child |  -.0014288    .012298    -0.12   0.908    -.0255325    .0226748
+       isib_age |  -.0558406   .0843085    -0.66   0.508    -.2210823    .1094011
+      sib_agesq |   .0553377   .0850906     0.65   0.515    -.1114368    .2221122
+   isib_married |   .0992654   .0390509     2.54   0.011      .022727    .1758038
+    isib_employ |   .0053415   .0077556     0.69   0.491    -.0098592    .0205423
+        sib_sex |  -.1189183   .0303272    -3.92   0.000    -.1783586    -.059478
+isib_occupation |  -.0146141   .0094168    -1.55   0.121    -.0330707    .0038425
+---------------------------------------------------------------------------------
+
+. outreg2 using testOaxacaIHS50, replace excel dec(4) 
+testOaxacaIHS50.xml
+dir : seeout
+
+. 
+. oaxaca rif_90 $xlist [aw=sib_famweight] if sample==1, by(bwrace)  detail threefold(reverse) noisily  
+
+Model for group 1
+(sum of wgt is 32,353.8299175501)
+
+      Source |       SS           df       MS      Number of obs   =     1,214
+-------------+----------------------------------   F(10, 1203)     =     17.75
+       Model |  317.452853        10  31.7452853   Prob > F        =    0.0000
+    Residual |   2152.0297     1,203  1.78888587   R-squared       =    0.1286
+-------------+----------------------------------   Adj R-squared   =    0.1213
+       Total |  2469.48255     1,213  2.03584712   Root MSE        =    1.3375
+
+---------------------------------------------------------------------------------
+         rif_90 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |     .11018   .0207174     5.32   0.000     .0695338    .1508262
+       ipar_inc |   .4185643   .0772065     5.42   0.000       .26709    .5700386
+    ipar_wealth |  -.0086445   .0106735    -0.81   0.418    -.0295852    .0122962
+     isib_child |  -.0033428   .0347403    -0.10   0.923    -.0715011    .0648154
+       isib_age |  -.0350049   .0940759    -0.37   0.710     -.219576    .1495663
+      sib_agesq |    .000579   .0010819     0.54   0.593    -.0015436    .0027017
+   isib_married |   .3930198   .1054682     3.73   0.000     .1860976    .5999419
+    isib_employ |   -.053153   .1109082    -0.48   0.632    -.2707479     .164442
+        sib_sex |   .2348828   .1207436     1.95   0.052    -.0020088    .4717743
+isib_occupation |   .2958657   .1008035     2.94   0.003     .0980956    .4936359
+          _cons |   6.138266   2.296399     2.67   0.008     1.632872    10.64366
+---------------------------------------------------------------------------------
+
+Model for group 2
+(sum of wgt is 5,259.69000154734)
+
+      Source |       SS           df       MS      Number of obs   =       595
+-------------+----------------------------------   F(10, 584)      =     26.24
+       Model |  359.619604        10  35.9619604   Prob > F        =    0.0000
+    Residual |  800.236601       584  1.37026815   R-squared       =    0.3101
+-------------+----------------------------------   Adj R-squared   =    0.2982
+       Total |  1159.85621       594  1.95261987   Root MSE        =    1.1706
+
+---------------------------------------------------------------------------------
+         rif_90 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .2094449   .0263051     7.96   0.000     .1577807     .261109
+       ipar_inc |   .2837053   .0797036     3.56   0.000     .1271648    .4402459
+    ipar_wealth |  -.0076494   .0096599    -0.79   0.429    -.0266217    .0113229
+     isib_child |   .0157934   .0473991     0.33   0.739    -.0773001    .1088869
+       isib_age |   .0570955   .1126376     0.51   0.612    -.1641285    .2783196
+      sib_agesq |  -.0006059   .0012827    -0.47   0.637    -.0031251    .0019134
+   isib_married |   1.007787   .1361987     7.40   0.000     .7402878    1.275286
+    isib_employ |  -.2649631   .1395056    -1.90   0.058    -.5389569    .0090306
+        sib_sex |  -.0208846   .1213338    -0.17   0.863    -.2591883    .2174192
+isib_occupation |  -.2911813   .1574601    -1.85   0.065    -.6004384    .0180758
+          _cons |   4.950387    2.54401     1.95   0.052    -.0461365     9.94691
+---------------------------------------------------------------------------------
+
+Blinder-Oaxaca decomposition                    Number of obs     =      1,809
+                                                Model             =     linear
+Group 1: bwrace = 0                             N of obs 1        =      1,214
+Group 2: bwrace = 1                             N of obs 2        =        595
+
+   endowments: (X1 - X2) * b1
+ coefficients: X1 * (b1 - b2)
+  interaction: (X1 - X2) * (b2 - b1)
+
+---------------------------------------------------------------------------------
+         rif_90 | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+overall         |
+        group_1 |   13.01265   .0410989   316.62   0.000      12.9321    13.09321
+        group_2 |   12.58646   .0576236   218.43   0.000     12.47352     12.6994
+     difference |   .4261892   .0707786     6.02   0.000     .2874658    .5649127
+     endowments |    .478865   .0534014     8.97   0.000     .3742001    .5835299
+   coefficients |  -.1739686   .0813251    -2.14   0.032    -.3333629   -.0145743
+    interaction |   .1212928   .0730009     1.66   0.097    -.0217862    .2643719
+----------------+----------------------------------------------------------------
+endowments      |
+      isib_educ |   .1004907   .0220219     4.56   0.000     .0573286    .1436527
+       ipar_inc |   .2408225   .0465084     5.18   0.000     .1496677    .3319774
+    ipar_wealth |  -.0221994   .0274989    -0.81   0.420    -.0760962    .0316974
+     isib_child |  -.0009113   .0094721    -0.10   0.923    -.0194762    .0176537
+       isib_age |   .0253625   .0691164     0.37   0.714    -.1101031    .1608282
+      sib_agesq |  -.0371704   .0714138    -0.52   0.603    -.1771388     .102798
+   isib_married |   .1142382    .032039     3.57   0.000     .0514428    .1770335
+    isib_employ |  -.0029453   .0062365    -0.47   0.637    -.0151685    .0092779
+        sib_sex |   .0510161   .0267826     1.90   0.057    -.0014767     .103509
+isib_occupation |   .0101613   .0065424     1.55   0.120    -.0026615    .0229842
+----------------+----------------------------------------------------------------
+coefficients    |
+      isib_educ |  -1.453834   .4904401    -2.96   0.003    -2.415079   -.4925894
+       ipar_inc |   1.721247   1.416298     1.22   0.224    -1.054646    4.497139
+    ipar_wealth |  -.0125088   .1809571    -0.07   0.945    -.3671782    .3421606
+     isib_child |  -.0198258   .0608884    -0.33   0.745    -.1391649    .0995134
+       isib_age |  -3.960211    6.31039    -0.63   0.530    -16.32835    8.407926
+      sib_agesq |    2.24021   3.172599     0.71   0.480     -3.97797    8.458389
+   isib_married |  -.3738912   .1051197    -3.56   0.000     -.579922   -.1678604
+    isib_employ |   .1775549   .1494141     1.19   0.235    -.1152913    .4704011
+        sib_sex |    .206492   .1382274     1.49   0.135    -.0644287    .4774127
+isib_occupation |   .1129198   .0365712     3.09   0.002     .0412416     .184598
+          _cons |   1.187879   3.427162     0.35   0.729    -5.529234    7.904992
+----------------+----------------------------------------------------------------
+interaction     |
+      isib_educ |   .0905354   .0321944     2.81   0.005     .0274356    .1536353
+       ipar_inc |  -.0775916   .0639989    -1.21   0.225    -.2030272     .047844
+    ipar_wealth |   .0025555   .0369695     0.07   0.945    -.0699035    .0750144
+     isib_child |   .0052165   .0160581     0.32   0.745    -.0262567    .0366897
+       isib_age |  -.0667306   .1105139    -0.60   0.546     -.283334    .1498727
+      sib_agesq |   .0760656   .1129619     0.67   0.501    -.1453357    .2974668
+   isib_married |    .178693   .0521458     3.43   0.001     .0764891    .2808969
+    isib_employ |  -.0117368   .0107415    -1.09   0.275    -.0327898    .0093161
+        sib_sex |  -.0555522    .037647    -1.48   0.140     -.129339    .0182346
+isib_occupation |  -.0201618   .0127497    -1.58   0.114    -.0451508    .0048272
+---------------------------------------------------------------------------------
+
+. outreg2 using testOaxacaIHS90, replace excel dec(4) 
+testOaxacaIHS90.xml
+dir : seeout
+
+. 
+. drop f50 f10 m90 m50 m10 f90 f50 f10 m90 m50 m10 dif90 dif50 dif10 densw1 evalw1 densb1 evalb1 rif_90 
+> rif_10 rif_50 eval1 densw evalw eval2 densb evalb 
+
+. 
+. *****************************************************************************************
+. *two-stage least squares (2SLS/IV) for panel data                                       *
+. * paternal grandparent - grandchild estimates (Table 1, Column (2))                     *  
+. *****************************************************************************************
+. //working directory
+. clear 
+
+. clear matrix
+
+. *cd "change working directory"
+. use "aeapp_mobility_column2_table1.dta"
+
+. 
+. //paternal grandparental wealth
+. global xlist isib_age sib_agesq  isib_race 
+
+. global x2list igpar_wealth isib_educ isib_child isib_married isib_employ isib_occupation sib_pension i
+> sib_2home isib_computeruse isib_riskpref i.year  sib_sex 
+
+. global ylist isib_famincome 
+
+. 
+. xtivreg $ylist $xlist (isib_stocks=$x2list), first re ec2sls vce(cluster sib_id) 
+
+First-stage EC2SLS  regression
+                                                 Number of obs    =      3,578
+                                                 Wald chi(41)     =        348
+                                                 Prob > chi2      =     0.0000
+
+                                       (Std. err. adjusted for clustering on sib_id)
+------------------------------------------------------------------------------------
+                   |               Robust
+       isib_stocks | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------------+----------------------------------------------------------------
+    igpar_wealth_d |   .0036125   .6065868     0.01   0.995    -1.185276    1.192501
+       isib_educ_d |   .0129786   .0789736     0.16   0.869    -.1418068    .1677641
+      isib_child_d |   .0265836   .0800963     0.33   0.740    -.1304023    .1835694
+    isib_married_d |   .1992213   .2366423     0.84   0.400    -.2645891    .6630318
+     isib_employ_d |   .1232772   .1667672     0.74   0.460    -.2035804    .4501349
+ isib_occupation_d |  -.2561524   .2091219    -1.22   0.221    -.6660238    .1537191
+     sib_pension_d |   .5469004   .2437951     2.24   0.025     .0690708     1.02473
+      isib_2home_d |   .1969172   .1773576     1.11   0.267    -.1506973    .5445317
+isib_computeruse_d |   .0130758   .1556933     0.08   0.933    -.2920776    .3182291
+   isib_riskpref_d |          0  (omitted)
+                   |
+            year_d |
+             2003  |          0  (empty)
+             2005  |   .2949678   .5555453     0.53   0.595     -.793881    1.383817
+             2007  |   .2291684   .9243765     0.25   0.804    -1.582576    2.040913
+             2009  |   .5447304   1.354273     0.40   0.688    -2.109597    3.199057
+             2011  |    .509341   1.773966     0.29   0.774    -2.967569    3.986251
+             2013  |    .651883   2.193992     0.30   0.766    -3.648262    4.952028
+             2015  |   .9455266   2.649867     0.36   0.721    -4.248117     6.13917
+             2017  |   1.634906   3.106948     0.53   0.599    -4.454601    7.724413
+                   |
+         sib_sex_d |  -.0134595   .2983019    -0.05   0.964    -.5981204    .5712014
+    igpar_wealth_m |   .0005956   .0119793     0.05   0.960    -.0228834    .0240745
+       isib_educ_m |   .1313422   .0366081     3.59   0.000     .0595917    .2030927
+      isib_child_m |  -.0744335   .0645449    -1.15   0.249    -.2009392    .0520721
+    isib_married_m |    .046713   .1956675     0.24   0.811    -.3367883    .4302142
+     isib_employ_m |  -.2042549   .1908133    -1.07   0.284    -.5782421    .1697323
+ isib_occupation_m |     .41468   .2087243     1.99   0.047     .0055879    .8237721
+     sib_pension_m |   2.600856   .2613772     9.95   0.000     2.088566    3.113146
+      isib_2home_m |   .0716056    .149945     0.48   0.633    -.2222812    .3654924
+isib_computeruse_m |  -.1914646   .1782647    -1.07   0.283     -.540857    .1579278
+   isib_riskpref_m |   .1685278   .1238676     1.36   0.174    -.0742481    .4113038
+                   |
+            year_m |
+             2003  |          0  (empty)
+             2005  |  -.1439454   .6171661    -0.23   0.816    -1.353569    1.065678
+             2007  |   .0841094   .6525077     0.13   0.897    -1.194782    1.363001
+             2009  |   .0226752   .6301874     0.04   0.971    -1.212469     1.25782
+             2011  |  -.0263588   .6393555    -0.04   0.967    -1.279473    1.226755
+             2013  |   -.441246    .656155    -0.67   0.501    -1.727286    .8447942
+             2015  |  -.0758154   .6370547    -0.12   0.905     -1.32442    1.172789
+             2017  |   .1797856   .6542124     0.27   0.783    -1.102447    1.462018
+                   |
+         sib_sex_m |   .3813345   .1603921     2.38   0.017     .0669717    .6956974
+        isib_age_d |   .0292345     .23588     0.12   0.901    -.4330818    .4915509
+       sib_agesq_d |  -.0023034   .0009413    -2.45   0.014    -.0041483   -.0004584
+       isib_race_d |  -1.062327   .8075613    -1.32   0.188    -2.645118    .5204638
+        isib_age_m |  -.0521851   .0752399    -0.69   0.488    -.1996526    .0952824
+       sib_agesq_m |   .0008335    .000978     0.85   0.394    -.0010833    .0027504
+       isib_race_m |  -.2738591   .1075761    -2.55   0.011    -.4847044   -.0630137
+             _cons |   1.279857   .6735655     1.90   0.057    -.0403071    2.600021
+------------------------------------------------------------------------------------
+
+EC2SLS random-effects IV regression             Number of obs     =      3,578
+Group variable: sib_id                          Number of groups  =      1,032
+
+R-squared:                                      Obs per group:
+     Within  = 0.0029                                         min =          1
+     Between = 0.1481                                         avg =        3.5
+     Overall = 0.0777                                         max =          8
+
+
+                                                Wald chi2(4)      =     238.99
+corr(u_i, X) = 0 (assumed)                      Prob > chi2       =     0.0000
+
+                             (Std. err. adjusted for 1,748 clusters in sib_id)
+------------------------------------------------------------------------------
+             |               Robust
+isib_famin~e | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ isib_stocks |   .2160576   .0192202    11.24   0.000     .1783866    .2537286
+    isib_age |   .0665633   .0225418     2.95   0.003     .0223821    .1107444
+   sib_agesq |  -.0007465   .0002933    -2.55   0.011    -.0013214   -.0001716
+   isib_race |  -.2186226   .0653423    -3.35   0.001    -.3466911   -.0905541
+       _cons |   10.12022   .4148348    24.40   0.000     9.307159    10.93328
+-------------+----------------------------------------------------------------
+     sigma_u |  .68002712
+     sigma_e |  1.2273761
+         rho |  .23487199   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+Endogenous: isib_stocks
+Exogenous:  isib_age sib_agesq isib_race igpar_wealth isib_educ isib_child
+            isib_married isib_employ isib_occupation sib_pension isib_2home
+            isib_computeruse isib_riskpref 2005.year 2007.year 2009.year
+            2011.year 2013.year 2015.year 2017.year sib_sex
+
+. outreg2 using paternal2SLS, replace excel dec(4)
+paternal2SLS.xml
+dir : seeout
+
+. 
+. 
+. *****************************************************************************************
+. *first stage results                                                                    *
+. * paternal grandparent - grandchild estimates (Table 2, Column (2))                     *  
+. *****************************************************************************************
+. 
+. //first stage results
+. reg isib_stocks isib_age sib_agesq isib_race  igpar_wealth isib_educ isib_child isib_married isib_empl
+> oy isib_occupation sib_pension isib_2home isib_computeruse isib_riskpref sib_sex year2003 year2005 yea
+> r2007 year2009 year2011 year2013 year2015 year2017 if e(sample)==1 
+note: year2003 omitted because of collinearity.
+
+      Source |       SS           df       MS      Number of obs   =     3,578
+-------------+----------------------------------   F(21, 3556)     =     38.83
+       Model |  10646.8201        21  506.991432   Prob > F        =    0.0000
+    Residual |  46432.0212     3,556  13.0573738   R-squared       =    0.1865
+-------------+----------------------------------   Adj R-squared   =    0.1817
+       Total |  57078.8412     3,577  15.9571823   Root MSE        =    3.6135
+
+----------------------------------------------------------------------------------
+     isib_stocks | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-----------------+----------------------------------------------------------------
+        isib_age |    .050371   .0586041     0.86   0.390      -.06453    .1652721
+       sib_agesq |   -.000291   .0007345    -0.40   0.692    -.0017311     .001149
+       isib_race |   -.678473    .147286    -4.61   0.000    -.9672466   -.3896994
+    igpar_wealth |    .003689   .0142505     0.26   0.796    -.0242509     .031629
+       isib_educ |    .265053   .0350233     7.57   0.000     .1963852    .3337207
+      isib_child |  -.0796425   .0583068    -1.37   0.172    -.1939605    .0346756
+    isib_married |   .0931588   .1817983     0.51   0.608    -.2632807    .4495982
+     isib_employ |  -.1455957   .1675362    -0.87   0.385    -.4740724     .182881
+ isib_occupation |   .3920516   .1513587     2.59   0.010     .0952931    .6888102
+     sib_pension |   2.413022   .1530031    15.77   0.000      2.11304    2.713005
+      isib_2home |   .2339959   .1476024     1.59   0.113    -.0553981    .5233899
+isib_computeruse |  -.0442198   .1829598    -0.24   0.809    -.4029366     .314497
+   isib_riskpref |     .29935   .1260087     2.38   0.018     .0522935    .5464066
+         sib_sex |   .5469878    .192744     2.84   0.005      .169088    .9248876
+        year2003 |          0  (omitted)
+        year2005 |  -.1163506   .2974875    -0.39   0.696    -.6996139    .4669127
+        year2007 |   -.403348   .3002856    -1.34   0.179    -.9920973    .1854013
+        year2009 |  -.4966653     .30485    -1.63   0.103    -1.094364    .1010331
+        year2011 |  -.8328807   .3094571    -2.69   0.007    -1.439612   -.2261493
+        year2013 |  -1.029893   .3126706    -3.29   0.001    -1.642925   -.4168616
+        year2015 |  -1.044261   .3174287    -3.29   0.001    -1.666622   -.4219004
+        year2017 |   -.708373   .3265307    -2.17   0.030    -1.348579   -.0681667
+           _cons |  -3.965514   1.167107    -3.40   0.001    -6.253781   -1.677247
+----------------------------------------------------------------------------------
+
+. outreg2 using mypaternalfile, replace excel dec(4)
+mypaternalfile.xml
+dir : seeout
+
+. 
+. 
+. *****************************************************************************************  
+. * oaxaca-blinder decomposition                                                          * 
+. * paternal grandparent - grandchild estimates                                           * 
+. *****************************************************************************************
+. keep if year==2017 
+(38,365 observations deleted)
+
+. 
+. *IHS applied to household income ;
+. sort isib_race //non-Latino Black=1, non-Latino White=0
+
+. sum isib_famincome if isib_race==0  [aw=sib_famweight], detail
+
+                      Household Income
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     8.594154      -9.680344
+ 5%     10.08581              0
+10%     10.59863              0       Obs                 848
+25%     11.39247       7.937375       Sum of wgt.  23,626.391
+
+50%     12.05067                      Mean           11.82508
+                        Largest       Std. dev.      1.528156
+75%     12.54084       14.13003
+90%     12.90197       14.77448       Variance       2.335261
+95%     13.16692       14.89051       Skewness      -7.461326
+99%     13.91445       15.31025       Kurtosis       93.05605
+
+. gen f90=r(p90)
+
+. gen f50=r(p50)
+
+. gen f10=r(p10)
+
+. sum isib_famincome if isib_race==1  [aw=sib_famweight], detail
+
+                      Household Income
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%     9.607774              0       Obs                 557
+25%     10.47424              0       Sum of wgt.   4,516.969
+
+50%     11.33857                      Mean           10.66335
+                        Largest       Std. dev.      2.741621
+75%     11.97035       13.07799
+90%     12.44823       13.21311       Variance       7.516484
+95%     12.60614       13.34102       Skewness      -3.100118
+99%     13.07799       13.63067       Kurtosis       12.34411
+
+. gen m90=r(p90)
+
+. gen m50=r(p50)
+
+. gen m10=r(p10)
+
+. gen dif90=m90-f90
+
+. gen dif50=m50-f50
+
+. gen dif10=m10-f10
+
+. di "  m-f q10 =" dif10 "  m-f q50 =" dif50 "  m-f q90 ="  dif90
+  m-f q10 =-.99085903  m-f q50 =-.71209717  m-f q90 =-.45373154
+
+. 
+. **perform the RIF decomposition
+. *** graph the densities to check bandwidth ;
+. kdensity isib_famincome if isib_race==0  [aw=sib_famweight], gen(evalw1 densw1) width(0.10) 
+
+. kdensity isib_famincome if isib_race==1  [aw=sib_famweight], gen(evalb1 densb1) width(0.10)  
+
+. *
+. set scheme s1color
+
+. label var evalb "IHS Income"
+
+. label var evalw "IHS Income"
+
+. graph twoway  (connected densb1 evalb1, msymbol(i) lpattern(dash) clwidth(medium) lc(red) )  /*
+>    */   (connected densw1  evalw1, msymbol(i) lpattern(longdash) clwidth(medium) lc(blue) )  /*
+>    */   , ytitle("Density")ylabel(0.0 0.2 0.4 0.6 0.8 1.0) /*
+>    */   xlabel(1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5)  /* 
+>    */   legend(pos(7) col(2) lab(1 "Black")  lab(2 "White")    /*
+>    */   region(lstyle(none)) symxsize(8) keygap(1) textwidth(34) ) /*
+>    */   saving(ExtFamIncMobility,replace)
+file ExtFamIncMobility.gph saved
+
+.    
+. * compute RIF for the 10th, 50th and 90th quantiles for blacks and whites ;
+. forvalues qt = 10(40)90 {       
+  2.    gen rif_`qt'=.
+  3. }
+(1,405 missing values generated)
+(1,405 missing values generated)
+(1,405 missing values generated)
+
+. pctile eval1=isib_famincome if isib_race==0  [aw=sib_famweight], nq(100) 
+
+. kdensity isib_famincome if isib_race==0  [aw=sib_famweight], at(eval1) gen(evalw densw) width(0.10) no
+> graph 
+
+. forvalues qt = 10(40)90 {       
+  2.  local qc = `qt'/100.0
+  3.  replace rif_`qt'=evalw[`qt']+`qc'/densw[`qt'] if isib_famincome>=evalw[`qt'] & isib_race==0
+  4.  replace rif_`qt'=evalw[`qt']-(1-`qc')/densw[`qt'] if isib_famincome<evalw[`qt'] & isib_race==0
+  5. }
+(789 real changes made)
+(59 real changes made)
+(462 real changes made)
+(386 real changes made)
+(88 real changes made)
+(760 real changes made)
+
+. pctile eval2=isib_famincome if isib_race==1  [aw=sib_famweight], nq(100) 
+
+. kdensity isib_famincome if isib_race==1  [aw=sib_famweight], at(eval2) gen(evalb densb) width(0.10) no
+> graph 
+
+. forvalues qt = 10(40)90 {       
+  2.  local qc = `qt'/100.0
+  3.  replace rif_`qt'=evalb[`qt']+`qc'/densb[`qt'] if isib_famincome>=evalb[`qt'] & isib_race==1
+  4.  replace rif_`qt'=evalb[`qt']-(1-`qc')/densb[`qt'] if isib_famincome<evalb[`qt'] & isib_race==1
+  5. }
+(516 real changes made)
+(41 real changes made)
+(296 real changes made)
+(261 real changes made)
+(46 real changes made)
+(511 real changes made)
+
+. sort isib_race
+
+. by isib_race: sum rif_10 rif_50 rif_90  [aw=sib_famweight]
+
+--------------------------------------------------------------------------------------------------------
+-> isib_race = 0
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      rif_10 |     848  23626.3909    10.60741   3.137888   1.155308   11.64789
+      rif_50 |     848  23626.3909    12.05281   1.021255   11.03001   13.07132
+      rif_90 |     848  23626.3909    12.90273    1.15774   12.51662    16.3701
+
+--------------------------------------------------------------------------------------------------------
+-> isib_race = 1
+
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+      rif_10 |     557  4516.96901    9.636417   4.706795   -4.61523   11.18811
+      rif_50 |     557  4516.96901    11.34485   1.114295   10.22526   12.45188
+      rif_90 |     557  4516.96901    12.47381   1.052143   12.10891   15.50212
+
+
+. ** perform oaxaca decomposition;
+. gen bwrace=.
+(1,405 missing values generated)
+
+. replace bwrace=0 if isib_race==0
+(848 real changes made)
+
+. replace bwrace=1 if isib_race==1
+(557 real changes made)
+
+. 
+. *mean
+. global xlist isib_educ igpar_inc igpar_wealth isib_child isib_age sib_agesq  isib_married  isib_employ
+>  sib_sex isib_occupation 
+
+. global ylist isib_famincome
+
+. 
+. oaxaca $ylist $xlist [aw=sib_famweight], by(bwrace) xb detail threefold(reverse) noisily
+
+Model for group 1
+(sum of wgt is 20,000.9969460964)
+
+      Source |       SS           df       MS      Number of obs   =       722
+-------------+----------------------------------   F(10, 711)      =     23.85
+       Model |  397.061055        10  39.7061055   Prob > F        =    0.0000
+    Residual |  1183.48851       711   1.6645408   R-squared       =    0.2512
+-------------+----------------------------------   Adj R-squared   =    0.2407
+       Total |  1580.54956       721  2.19216306   Root MSE        =    1.2902
+
+---------------------------------------------------------------------------------
+ isib_famincome | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .0715436   .0248176     2.88   0.004      .022819    .1202682
+      igpar_inc |   .3092281   .0866726     3.57   0.000     .1390632    .4793929
+   igpar_wealth |   .0029438   .0132855     0.22   0.825    -.0231397    .0290272
+     isib_child |   .0186568   .0461081     0.40   0.686    -.0718674    .1091811
+       isib_age |   .2410971   .0920755     2.62   0.009     .0603247    .4218695
+      sib_agesq |  -.0027561    .001027    -2.68   0.007    -.0047725   -.0007398
+   isib_married |   .9406798   .1263139     7.45   0.000     .6926869    1.188673
+    isib_employ |   .7063823   .1272043     5.55   0.000     .4566413    .9561234
+        sib_sex |  -.0055608    .152934    -0.04   0.971    -.3058171    .2946956
+isib_occupation |   .3357745    .155993     2.15   0.032     .0295125    .6420365
+          _cons |   .5650034   2.255521     0.25   0.802    -3.863274    4.993281
+---------------------------------------------------------------------------------
+
+Model for group 2
+(sum of wgt is 3,486.01200914383)
+
+      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(10, 417)      =     21.55
+       Model |  898.209542        10  89.8209542   Prob > F        =    0.0000
+    Residual |  1738.15753       417  4.16824348   R-squared       =    0.3407
+-------------+----------------------------------   Adj R-squared   =    0.3249
+       Total |  2636.36707       427  6.17416177   Root MSE        =    2.0416
+
+---------------------------------------------------------------------------------
+ isib_famincome | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .1041512   .0586681     1.78   0.077     -.011171    .2194733
+      igpar_inc |   .4349794   .1689854     2.57   0.010     .1028101    .7671488
+   igpar_wealth |  -.0430472   .0205736    -2.09   0.037     -.083488   -.0026064
+     isib_child |  -.0944428   .1012973    -0.93   0.352    -.2935598    .1046743
+       isib_age |    .481875    .191611     2.51   0.012     .1052313    .8585188
+      sib_agesq |  -.0060152    .002148    -2.80   0.005    -.0102374    -.001793
+   isib_married |   2.075331   .2903892     7.15   0.000     1.504522     2.64614
+    isib_employ |   2.313027   .2369759     9.76   0.000     1.847211    2.778844
+        sib_sex |  -1.046006   .2326935    -4.50   0.000    -1.503404   -.5886073
+isib_occupation |  -.0759366   .6649564    -0.11   0.909    -1.383021    1.231148
+          _cons |  -6.144389   4.589761    -1.34   0.181    -15.16634    2.877562
+---------------------------------------------------------------------------------
+
+Blinder-Oaxaca decomposition                    Number of obs     =      1,150
+                                                Model             =     linear
+Group 1: bwrace = 0                             N of obs 1        =        722
+Group 2: bwrace = 1                             N of obs 2        =        428
+
+   endowments: (X1 - X2) * b1
+ coefficients: X1 * (b1 - b2)
+  interaction: (X1 - X2) * (b2 - b1)
+
+---------------------------------------------------------------------------------
+ isib_famincome | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+overall         |
+        group_1 |   11.85731   .0553915   214.06   0.000     11.74875    11.96588
+        group_2 |   10.82018   .1210524    89.38   0.000     10.58292    11.05744
+     difference |   1.037129   .1331236     7.79   0.000     .7762118    1.298047
+     endowments |    .702084   .0783668     8.96   0.000      .548488    .8556801
+   coefficients |   .1786482   .1737848     1.03   0.304    -.1619637    .5192601
+    interaction |   .1563971   .1569887     1.00   0.319    -.1512951    .4640893
+----------------+----------------------------------------------------------------
+endowments      |
+      isib_educ |    .060521   .0227104     2.66   0.008     .0160094    .1050325
+      igpar_inc |   .2079557   .0596672     3.49   0.000     .0910101    .3249014
+   igpar_wealth |   .0076472   .0345248     0.22   0.825    -.0600202    .0753146
+     isib_child |   .0050875   .0126411     0.40   0.687    -.0196886    .0298637
+       isib_age |   .1276891   .1225446     1.04   0.297    -.1124939    .3678721
+      sib_agesq |  -.1240229    .124104    -1.00   0.318    -.3672623    .1192164
+   isib_married |   .3469406   .0532419     6.52   0.000     .2425883    .4512929
+    isib_employ |    .041312   .0195564     2.11   0.035     .0029821    .0796418
+        sib_sex |  -.0013978   .0384427    -0.04   0.971    -.0767441    .0739485
+isib_occupation |   .0303516   .0148627     2.04   0.041     .0012213    .0594819
+----------------+----------------------------------------------------------------
+coefficients    |
+      isib_educ |  -.4642489   .9069495    -0.51   0.609    -2.241837    1.313339
+      igpar_inc |  -1.600158   2.416645    -0.66   0.508    -6.336695    3.136379
+   igpar_wealth |   .5727117   .3050467     1.88   0.060    -.0251689    1.170592
+     isib_child |   .1087989   .1071893     1.02   0.310    -.1012883    .3188861
+       isib_age |  -10.64755   9.401095    -1.13   0.257    -29.07336    7.778254
+      sib_agesq |    6.56008   4.793084     1.37   0.171    -2.834192    15.95435
+   isib_married |  -.6827392   .1916666    -3.56   0.000    -1.058399   -.3070796
+    isib_employ |  -1.297601   .2184996    -5.94   0.000    -1.725852   -.8693495
+        sib_sex |   .8728189   .2340239     3.73   0.000     .4141404    1.331497
+isib_occupation |   .0471461   .0783653     0.60   0.547    -.1064471    .2007393
+          _cons |   6.709392   5.114028     1.31   0.190    -3.313917     16.7327
+----------------+----------------------------------------------------------------
+interaction     |
+      isib_educ |   .0275838   .0540314     0.51   0.610    -.0783158    .1334833
+      igpar_inc |   .0845677    .127824     0.66   0.508    -.1659626    .3350981
+   igpar_wealth |  -.1194746   .0652015    -1.83   0.067    -.2472672    .0083179
+     isib_child |   -.030841   .0313699    -0.98   0.326    -.0923248    .0306428
+       isib_age |   .1275201   .1590032     0.80   0.423    -.1841204    .4391606
+      sib_agesq |  -.1466544   .1732846    -0.85   0.397     -.486286    .1929771
+   isib_married |   .4184809   .1208618     3.46   0.001     .1815961    .6553657
+    isib_employ |   .0939628   .0440412     2.13   0.033     .0076437    .1802819
+        sib_sex |  -.2615324   .0756065    -3.46   0.001    -.4097185   -.1133464
+isib_occupation |  -.0372157   .0620072    -0.60   0.548    -.1587475    .0843161
+---------------------------------------------------------------------------------
+
+Coefficients (b) and means (x)
+---------------------------------------------------------------------------------
+                | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+b1              |
+      isib_educ |   .0715436   .0248176     2.88   0.004     .0229019    .1201853
+      igpar_inc |   .3092281   .0866726     3.57   0.000     .1393529    .4791033
+   igpar_wealth |   .0029438   .0132855     0.22   0.825    -.0230953    .0289828
+     isib_child |   .0186568   .0461081     0.40   0.686    -.0717133     .109027
+       isib_age |   .2410971   .0920755     2.62   0.009     .0606324    .4215618
+      sib_agesq |  -.0027561    .001027    -2.68   0.007     -.004769   -.0007432
+   isib_married |   .9406798   .1263139     7.45   0.000     .6931091     1.18825
+    isib_employ |   .7063823   .1272043     5.55   0.000     .4570664    .9556982
+        sib_sex |  -.0055608    .152934    -0.04   0.971     -.305306    .2941844
+isib_occupation |   .3357745    .155993     2.15   0.031     .0300338    .6415151
+          _cons |   .5650034   2.255521     0.25   0.802    -3.855736    4.985743
+----------------+----------------------------------------------------------------
+b2              |
+      isib_educ |   .1041512   .0586681     1.78   0.076    -.0108363    .2191386
+      igpar_inc |   .4349794   .1689854     2.57   0.010     .1037741    .7661847
+   igpar_wealth |  -.0430472   .0205736    -2.09   0.036    -.0833706   -.0027238
+     isib_child |  -.0944428   .1012973    -0.93   0.351    -.2929818    .1040963
+       isib_age |    .481875    .191611     2.51   0.012     .1063244    .8574256
+      sib_agesq |  -.0060152    .002148    -2.80   0.005    -.0102252   -.0018053
+   isib_married |   2.075331   .2903892     7.15   0.000     1.506179    2.644483
+    isib_employ |   2.313027   .2369759     9.76   0.000     1.848563    2.777492
+        sib_sex |  -1.046006   .2326935    -4.50   0.000    -1.502077   -.5899348
+isib_occupation |  -.0759366   .6649564    -0.11   0.909    -1.379227    1.227354
+          _cons |  -6.144389   4.589761    -1.34   0.181    -15.14015    2.851377
+----------------+----------------------------------------------------------------
+x1              |
+      isib_educ |   14.23746   .0817692   174.12   0.000     14.07719    14.39772
+      igpar_inc |   12.72478   .0237498   535.79   0.000     12.67823    12.77133
+   igpar_wealth |    12.4527   .1485624    83.82   0.000     12.16152    12.74387
+     isib_child |   .9619745   .0455924    21.10   0.000      .872615    1.051334
+       isib_age |   44.22147   .2819858   156.82   0.000     43.66878    44.77415
+      sib_agesq |   2012.869   25.33171    79.46   0.000      1963.22    2062.518
+   isib_married |   .6017173   .0182316    33.00   0.000      .565984    .6374505
+    isib_employ |   .8076462   .0146789    55.02   0.000     .7788761    .8364163
+        sib_sex |     .83889   .0136913    61.27   0.000     .8120555    .8657246
+isib_occupation |   .1145125   .0118591     9.66   0.000     .0912692    .1377559
+          _cons |          1          .        .       .            .           .
+----------------+----------------------------------------------------------------
+x2              |
+      isib_educ |   13.39153   .0892689   150.01   0.000     13.21656    13.56649
+      igpar_inc |   12.05228   .0337369   357.24   0.000     11.98616     12.1184
+   igpar_wealth |   9.854912   .2724268    36.17   0.000     9.320966    10.38886
+     isib_child |   .6892853   .0533309    12.92   0.000     .5847587     .793812
+       isib_age |   43.69185   .3713781   117.65   0.000     42.96396    44.41974
+      sib_agesq |    1967.87   33.23698    59.21   0.000     1902.727    2033.014
+   isib_married |   .2328982   .0204548    11.39   0.000     .1928075    .2729889
+    isib_employ |   .7491624   .0209783    35.71   0.000     .7080456    .7902791
+        sib_sex |   .5875241   .0238231    24.66   0.000     .5408317    .6342165
+isib_occupation |   .0241198   .0074246     3.25   0.001     .0095679    .0386717
+          _cons |          1          .        .       .            .           .
+---------------------------------------------------------------------------------
+
+. outreg2 using testOaxacaPaternalIHS, replace excel dec(4) 
+testOaxacaPaternalIHS.xml
+dir : seeout
+
+. 
+. *proportional
+. oaxaca rif_10 $xlist [aw=sib_famweight], by(bwrace) detail threefold(reverse) noisily
+
+Model for group 1
+(sum of wgt is 20,000.9969460964)
+
+      Source |       SS           df       MS      Number of obs   =       722
+-------------+----------------------------------   F(10, 711)      =     26.24
+       Model |  1846.58461        10  184.658461   Prob > F        =    0.0000
+    Residual |  5003.59458       711  7.03740447   R-squared       =    0.2696
+-------------+----------------------------------   Adj R-squared   =    0.2593
+       Total |  6850.17919       721  9.50094201   Root MSE        =    2.6528
+
+---------------------------------------------------------------------------------
+         rif_10 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .0457878   .0510293     0.90   0.370    -.0543983    .1459739
+      igpar_inc |   .5101833   .1782136     2.86   0.004     .1602954    .8600712
+   igpar_wealth |   .0402839   .0273171     1.47   0.141     -.013348    .0939158
+     isib_child |   .1140721    .094806     1.20   0.229    -.0720611    .3002053
+       isib_age |  -.1644331   .1893229    -0.87   0.385     -.536132    .2072658
+      sib_agesq |   .0014982   .0021117     0.71   0.478    -.0026477    .0056441
+   isib_married |   1.559553   .2597229     6.00   0.000     1.049637    2.069468
+    isib_employ |   2.744524   .2615537    10.49   0.000     2.231014    3.258034
+        sib_sex |  -.2508494   .3144584    -0.80   0.425    -.8682275    .3665287
+isib_occupation |   .2429712   .3207481     0.76   0.449    -.3867556    .8726979
+          _cons |   4.176648   4.637734     0.90   0.368    -4.928644    13.28194
+---------------------------------------------------------------------------------
+
+Model for group 2
+(sum of wgt is 3,486.01200914383)
+
+      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(10, 417)      =     11.59
+       Model |  1914.56201        10  191.456201   Prob > F        =    0.0000
+    Residual |  6891.24564       417  16.5257689   R-squared       =    0.2174
+-------------+----------------------------------   Adj R-squared   =    0.1987
+       Total |  8805.80764       427  20.6225003   Root MSE        =    4.0652
+
+---------------------------------------------------------------------------------
+         rif_10 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .1195728   .1168171     1.02   0.307     -.110051    .3491967
+      igpar_inc |   .0670367   .3364755     0.20   0.842    -.5943629    .7284363
+   igpar_wealth |  -.0651568   .0409651    -1.59   0.112    -.1456806     .015367
+     isib_child |  -.2084352   .2016983    -1.03   0.302    -.6049074    .1880369
+       isib_age |  -.0760608   .3815264    -0.20   0.842    -.8260156    .6738939
+      sib_agesq |  -.0002051   .0042769    -0.05   0.962    -.0086121     .008202
+   isib_married |   2.552535   .5782089     4.41   0.000     1.415967    3.689102
+    isib_employ |   4.003603   .4718549     8.48   0.000     3.076092    4.931114
+        sib_sex |  -.7183794   .4633281    -1.55   0.122    -1.629129    .1923703
+isib_occupation |  -.0936986   1.324029    -0.07   0.944    -2.696302    2.508904
+          _cons |   8.690444   9.138909     0.95   0.342    -9.273627    26.65452
+---------------------------------------------------------------------------------
+
+Blinder-Oaxaca decomposition                    Number of obs     =      1,150
+                                                Model             =     linear
+Group 1: bwrace = 0                             N of obs 1        =        722
+Group 2: bwrace = 1                             N of obs 2        =        428
+
+   endowments: (X1 - X2) * b1
+ coefficients: X1 * (b1 - b2)
+  interaction: (X1 - X2) * (b2 - b1)
+
+---------------------------------------------------------------------------------
+         rif_10 | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+overall         |
+        group_1 |   10.64846   .1153013    92.35   0.000     10.42247    10.87444
+        group_2 |   9.756528   .2215574    44.04   0.000     9.322283    10.19077
+     difference |   .8919285    .249764     3.57   0.000     .4024001    1.381457
+     endowments |   1.192527   .1658866     7.19   0.000     .8673951    1.517659
+   coefficients |   .0347857   .3421119     0.10   0.919    -.6357413    .7053127
+    interaction |  -.3353841   .2995903    -1.12   0.263    -.9225703    .2518021
+----------------+----------------------------------------------------------------
+endowments      |
+      isib_educ |   .0387333   .0435217     0.89   0.373    -.0465677    .1240343
+      igpar_inc |    .343098    .121683     2.82   0.005     .1046037    .5815923
+   igpar_wealth |   .1046488   .0720566     1.45   0.146    -.0365795    .2458772
+     isib_child |   .0311062   .0270631     1.15   0.250    -.0219366     .084149
+       isib_age |  -.0870866   .1262257    -0.69   0.490    -.3344845    .1603113
+      sib_agesq |   .0674162   .1137952     0.59   0.554    -.1556183    .2904506
+   isib_married |   .5751927   .1048901     5.48   0.000     .3696118    .7807735
+    isib_employ |   .1605104   .0719161     2.23   0.026     .0195574    .3014634
+        sib_sex |   -.063055   .0793441    -0.79   0.427    -.2185665    .0924566
+isib_occupation |   .0219628   .0291919     0.75   0.452    -.0352523    .0791779
+----------------+----------------------------------------------------------------
+coefficients    |
+      isib_educ |  -1.050511    1.81495    -0.58   0.563    -4.607748    2.506725
+      igpar_inc |   5.638942    4.84506     1.16   0.244      -3.8572    15.13508
+   igpar_wealth |   1.313021   .6133437     2.14   0.032     .1108892    2.515152
+     isib_child |   .3102439   .2148975     1.44   0.149    -.1109475    .7314352
+       isib_age |  -3.907951   18.83471    -0.21   0.836     -40.8233     33.0074
+      sib_agesq |   3.428464   9.601181     0.36   0.721    -15.38951    22.24643
+   isib_married |  -.5974946   .3818353    -1.56   0.118    -1.345878    .1508889
+    isib_employ |   -1.01689   .4361148    -2.33   0.020     -1.87166    -.162121
+        sib_sex |   .3922063   .4697898     0.83   0.404    -.5285648    1.312977
+isib_occupation |   .0385529   .1560545     0.25   0.805    -.2673083    .3444141
+          _cons |  -4.513796   10.24833    -0.44   0.660    -24.60015    15.57256
+----------------+----------------------------------------------------------------
+interaction     |
+      isib_educ |   .0624171   .1082056     0.58   0.564     -.149662    .2744961
+      igpar_inc |  -.2980159   .2567108    -1.16   0.246    -.8011598    .2051281
+   igpar_wealth |  -.2739121   .1320275    -2.07   0.038    -.5326813   -.0151429
+     isib_child |  -.0879443   .0648498    -1.36   0.175    -.2150475    .0391589
+       isib_age |   .0468035   .2293062     0.20   0.838    -.4026284    .4962353
+      sib_agesq |  -.0766453   .2261326    -0.34   0.735     -.519857    .3665664
+   isib_married |   .3662308   .2353585     1.56   0.120    -.0950634     .827525
+    isib_employ |   .0736358   .0451084     1.63   0.103     -.014775    .1620466
+        sib_sex |  -.1175211   .1413403    -0.83   0.406     -.394543    .1595007
+isib_occupation |  -.0304325   .1232344    -0.25   0.805    -.2719675    .2111025
+---------------------------------------------------------------------------------
+
+. outreg2 using testOaxacaPaternalIHS10, replace excel dec(4) 
+testOaxacaPaternalIHS10.xml
+dir : seeout
+
+. 
+. oaxaca rif_50 $xlist [aw=sib_famweight], by(bwrace)  detail threefold(reverse) noisily
+
+Model for group 1
+(sum of wgt is 20,000.9969460964)
+
+      Source |       SS           df       MS      Number of obs   =       722
+-------------+----------------------------------   F(10, 711)      =     50.41
+       Model |  311.881279        10  31.1881279   Prob > F        =    0.0000
+    Residual |  439.871423       711  .618665855   R-squared       =    0.4149
+-------------+----------------------------------   Adj R-squared   =    0.4066
+       Total |  751.752702       721  1.04265285   Root MSE        =    .78655
+
+---------------------------------------------------------------------------------
+         rif_50 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .0887865   .0151301     5.87   0.000     .0590815    .1184915
+      igpar_inc |    .312701     .05284     5.92   0.000     .2089599    .4164421
+   igpar_wealth |   -.007589   .0080995    -0.94   0.349    -.0234908    .0083128
+     isib_child |   .0178265   .0281098     0.63   0.526    -.0373616    .0730146
+       isib_age |   .0872707   .0561339     1.55   0.120    -.0229372    .1974787
+      sib_agesq |  -.0008936   .0006261    -1.43   0.154    -.0021229    .0003356
+   isib_married |   .7716641   .0770073    10.02   0.000     .6204752    .9228531
+    isib_employ |   .4843253   .0775502     6.25   0.000     .3320706      .63658
+        sib_sex |   .0756058   .0932363     0.81   0.418    -.1074456    .2586572
+isib_occupation |   .4041835   .0951012     4.25   0.000     .2174707    .5908962
+          _cons |   3.882171   1.375079     2.82   0.005      1.18247    6.581872
+---------------------------------------------------------------------------------
+
+Model for group 2
+(sum of wgt is 3,486.01200914383)
+
+      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(10, 417)      =     17.58
+       Model |  157.237766        10  15.7237766   Prob > F        =    0.0000
+    Residual |  372.881088       417  .894199251   R-squared       =    0.2966
+-------------+----------------------------------   Adj R-squared   =    0.2797
+       Total |  530.118854       427  1.24149614   Root MSE        =    .94562
+
+---------------------------------------------------------------------------------
+         rif_50 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .1101523   .0271733     4.05   0.000     .0567385     .163566
+      igpar_inc |   .1575499    .078269     2.01   0.045      .003699    .3114009
+   igpar_wealth |   .0019062   .0095291     0.20   0.842    -.0168247    .0206372
+     isib_child |  -.0044651   .0469179    -0.10   0.924    -.0966901      .08776
+       isib_age |   .2850387   .0887485     3.21   0.001     .1105885    .4594888
+      sib_agesq |  -.0031173   .0009949    -3.13   0.002    -.0050729   -.0011617
+   isib_married |   .9310782   .1344996     6.92   0.000     .6666964     1.19546
+    isib_employ |   .5221565   .1097602     4.76   0.000     .3064043    .7379087
+        sib_sex |  -.1237509   .1077767    -1.15   0.252    -.3356043    .0881024
+isib_occupation |   .2699844    .307988     0.88   0.381    -.3354181    .8753869
+          _cons |   1.117212    2.12584     0.53   0.599    -3.061487    5.295911
+---------------------------------------------------------------------------------
+
+Blinder-Oaxaca decomposition                    Number of obs     =      1,150
+                                                Model             =     linear
+Group 1: bwrace = 0                             N of obs 1        =        722
+Group 2: bwrace = 1                             N of obs 2        =        428
+
+   endowments: (X1 - X2) * b1
+ coefficients: X1 * (b1 - b2)
+  interaction: (X1 - X2) * (b2 - b1)
+
+---------------------------------------------------------------------------------
+         rif_50 | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+overall         |
+        group_1 |   12.07363   .0381576   316.41   0.000     11.99884    12.14842
+        group_2 |   11.36803   .0543104   209.32   0.000     11.26158    11.47447
+     difference |   .7056033   .0663749    10.63   0.000     .5755109    .8356956
+     endowments |   .6450223   .0546716    11.80   0.000     .5378679    .7521766
+   coefficients |   .1248161   .0814206     1.53   0.125    -.0347653    .2843976
+    interaction |  -.0642352   .0732467    -0.88   0.381     -.207796    .0793257
+----------------+----------------------------------------------------------------
+endowments      |
+      isib_educ |   .0751073   .0167135     4.49   0.000     .0423494    .1078652
+      igpar_inc |   .2102913   .0378044     5.56   0.000      .136196    .2843866
+   igpar_wealth |  -.0197146   .0211721    -0.93   0.352    -.0612111    .0217819
+     isib_child |   .0048611   .0077666     0.63   0.531    -.0103612    .0200834
+       isib_age |   .0462201   .0503973     0.92   0.359    -.0525568    .1449969
+      sib_agesq |  -.0402125   .0467806    -0.86   0.390    -.1319009    .0514759
+   isib_married |   .2846044    .035408     8.04   0.000     .2152059    .3540029
+    isib_employ |   .0283252    .013204     2.15   0.032     .0024459    .0542046
+        sib_sex |   .0190047   .0235283     0.81   0.419    -.0271099    .0651194
+isib_occupation |   .0365352   .0102898     3.55   0.000     .0163677    .0567028
+----------------+----------------------------------------------------------------
+coefficients    |
+      isib_educ |  -.3041937   .4428111    -0.69   0.492    -1.172087    .5637002
+      igpar_inc |   1.974263   1.201679     1.64   0.100    -.3809845    4.329511
+   igpar_wealth |  -.1182412    .155742    -0.76   0.448      -.42349    .1870076
+     isib_child |   .0214439   .0526242     0.41   0.684    -.0816976    .1245855
+       isib_age |  -8.745588   4.644074    -1.88   0.060    -17.84781    .3566311
+      sib_agesq |   4.476043   2.366796     1.89   0.059    -.1627929    9.114878
+   isib_married |  -.0959222   .0933023    -1.03   0.304    -.2787913     .086947
+    isib_employ |  -.0305542    .108543    -0.28   0.778    -.2432945    .1821861
+        sib_sex |   .1672384   .1195806     1.40   0.162    -.0671352     .401612
+isib_occupation |   .0153675   .0369459     0.42   0.677    -.0570451    .0877801
+          _cons |   2.764959   2.531806     1.09   0.275    -2.197288    7.727207
+----------------+----------------------------------------------------------------
+interaction     |
+      isib_educ |   .0180739   .0264366     0.68   0.494    -.0337409    .0698888
+      igpar_inc |   -.104339   .0638297    -1.63   0.102     -.229443     .020765
+   igpar_wealth |   .0246666   .0326217     0.76   0.450    -.0392708    .0886039
+     isib_child |  -.0060787   .0149963    -0.41   0.685    -.0354709    .0233135
+       isib_age |   .1047413   .1076919     0.97   0.331     -.106331    .3158135
+      sib_agesq |  -.1000646   .1069286    -0.94   0.349    -.3096408    .1095117
+   isib_married |   .0587949    .057328     1.03   0.305    -.0535659    .1711557
+    isib_employ |   .0022125   .0079193     0.28   0.780    -.0133089     .017734
+        sib_sex |  -.0501115   .0362383    -1.38   0.167    -.1211373    .0209143
+isib_occupation |  -.0121306   .0291973    -0.42   0.678    -.0693563    .0450951
+---------------------------------------------------------------------------------
+
+. outreg2 using testOaxacaPaternalIHS50, replace excel dec(4) 
+testOaxacaPaternalIHS50.xml
+dir : seeout
+
+. 
+. oaxaca rif_90 $xlist [aw=sib_famweight], by(bwrace)  detail threefold(reverse)  noisily  
+
+Model for group 1
+(sum of wgt is 20,000.9969460964)
+
+      Source |       SS           df       MS      Number of obs   =       722
+-------------+----------------------------------   F(10, 711)      =     14.61
+       Model |  173.149292        10  17.3149292   Prob > F        =    0.0000
+    Residual |  842.622573       711  1.18512317   R-squared       =    0.1705
+-------------+----------------------------------   Adj R-squared   =    0.1588
+       Total |  1015.77186       721  1.40883754   Root MSE        =    1.0886
+
+---------------------------------------------------------------------------------
+         rif_90 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .1248694   .0209409     5.96   0.000      .083756    .1659828
+      igpar_inc |   .2131788   .0731335     2.91   0.004     .0695953    .3567622
+   igpar_wealth |   -.010504   .0112101    -0.94   0.349    -.0325129    .0115049
+     isib_child |    .019962   .0389055     0.51   0.608    -.0564215    .0963454
+       isib_age |  -.0269755   .0776924    -0.35   0.729    -.1795095    .1255586
+      sib_agesq |   .0004676   .0008666     0.54   0.590    -.0012338    .0021689
+   isib_married |   .3526238   .1065824     3.31   0.001     .1433698    .5618778
+    isib_employ |  -.0642818   .1073338    -0.60   0.549    -.2750108    .1464473
+        sib_sex |   .1160117   .1290443     0.90   0.369    -.1373417     .369365
+isib_occupation |   .5222849   .1316254     3.97   0.000      .263864    .7807058
+          _cons |   8.480495   1.903186     4.46   0.000     4.743958    12.21703
+---------------------------------------------------------------------------------
+
+Model for group 2
+(sum of wgt is 3,486.01200914383)
+
+      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(10, 417)      =     20.90
+       Model |  165.485583        10  16.5485583   Prob > F        =    0.0000
+    Residual |  330.230331       417  .791919258   R-squared       =    0.3338
+-------------+----------------------------------   Adj R-squared   =    0.3179
+       Total |  495.715913       427   1.1609272   Root MSE        =     .8899
+
+---------------------------------------------------------------------------------
+         rif_90 | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+      isib_educ |   .2163054   .0255721     8.46   0.000     .1660392    .2665717
+      igpar_inc |   .1544074   .0736568     2.10   0.037     .0096224    .2991924
+   igpar_wealth |   .0119579   .0089675     1.33   0.183    -.0056693    .0295851
+     isib_child |   .0270294   .0441532     0.61   0.541    -.0597611    .1138199
+       isib_age |   .1888433   .0835188     2.26   0.024      .024673    .3530136
+      sib_agesq |    -.00214   .0009363    -2.29   0.023    -.0039803   -.0002996
+   isib_married |   .6501178    .126574     5.14   0.000     .4013153    .8989204
+    isib_employ |  -.2874519   .1032923    -2.78   0.006    -.4904904   -.0844133
+        sib_sex |    .063551   .1014258     0.63   0.531    -.1358184    .2629205
+isib_occupation |    .205307   .2898392     0.71   0.479     -.364421    .7750349
+          _cons |   3.581768   2.000571     1.79   0.074    -.3506928    7.514229
+---------------------------------------------------------------------------------
+
+Blinder-Oaxaca decomposition                    Number of obs     =      1,150
+                                                Model             =     linear
+Group 1: bwrace = 0                             N of obs 1        =        722
+Group 2: bwrace = 1                             N of obs 2        =        428
+
+   endowments: (X1 - X2) * b1
+ coefficients: X1 * (b1 - b2)
+  interaction: (X1 - X2) * (b2 - b1)
+
+---------------------------------------------------------------------------------
+         rif_90 | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+overall         |
+        group_1 |   12.92499   .0444304   290.90   0.000     12.83791    13.01207
+        group_2 |   12.49393   .0524955   238.00   0.000     12.39104    12.59682
+     difference |   .4310571   .0687739     6.27   0.000     .2962628    .5658514
+     endowments |   .4365696   .0619497     7.05   0.000     .3151503    .5579888
+   coefficients |  -.1554114   .0828998    -1.87   0.061     -.317892    .0070691
+    interaction |   .1498989   .0818778     1.83   0.067    -.0105786    .3103765
+----------------+----------------------------------------------------------------
+endowments      |
+      isib_educ |   .1056309   .0232876     4.54   0.000      .059988    .1512738
+      igpar_inc |   .1433626   .0499625     2.87   0.004     .0454379    .2412873
+   igpar_wealth |  -.0272871   .0293034    -0.93   0.352    -.0847206    .0301464
+     isib_child |   .0054434   .0107012     0.51   0.611    -.0155305    .0264173
+       isib_age |  -.0142867    .043027    -0.33   0.740    -.0986179    .0700446
+      sib_agesq |   .0210394   .0436162     0.48   0.630    -.0644468    .1065256
+   isib_married |   .1300544   .0404797     3.21   0.001     .0507157    .2093931
+    isib_employ |  -.0037594   .0064895    -0.58   0.562    -.0164786    .0089597
+        sib_sex |   .0291614   .0325936     0.89   0.371    -.0347209    .0930436
+isib_occupation |   .0472107   .0139629     3.38   0.001      .019844    .0745775
+----------------+----------------------------------------------------------------
+coefficients    |
+      isib_educ |  -1.301817   .4706396    -2.77   0.006    -2.224253     -.37938
+      igpar_inc |   .7478522   1.320796     0.57   0.571     -1.84086    3.336565
+   igpar_wealth |  -.2797109   .1787973    -1.56   0.118    -.6301472    .0707255
+     isib_child |  -.0067987   .0566116    -0.12   0.904    -.1177555    .1041581
+       isib_age |  -9.543821    5.04462    -1.89   0.059     -19.4311    .3434533
+      sib_agesq |   5.248615   2.568753     2.04   0.041      .213951    10.28328
+   isib_married |  -.1790073   .0997146    -1.80   0.073    -.3744444    .0164298
+    isib_employ |   .1802425   .1203536     1.50   0.134    -.0556463    .4161313
+        sib_sex |   .0440087   .1376913     0.32   0.749    -.2258613    .3138787
+isib_occupation |   .0362979   .0366457     0.99   0.322    -.0355264    .1081223
+          _cons |   4.898727   2.761232     1.77   0.076    -.5131884    10.31064
+----------------+----------------------------------------------------------------
+interaction     |
+      isib_educ |   .0773486   .0300713     2.57   0.010     .0184099    .1362873
+      igpar_inc |  -.0395237   .0698456    -0.57   0.571    -.1764186    .0973712
+   igpar_wealth |   .0583511   .0379386     1.54   0.124    -.0160071    .1327093
+     isib_child |   .0019272    .016055     0.12   0.904      -.02954    .0333944
+       isib_age |   .1143013   .1173772     0.97   0.330    -.1157538    .3443563
+      sib_agesq |  -.1173359   .1231651    -0.95   0.341     -.358735    .1240633
+   isib_married |   .1097215    .061571     1.78   0.075    -.0109555    .2303984
+    isib_employ |  -.0130519   .0104186    -1.25   0.210    -.0334719    .0073682
+        sib_sex |  -.0131868   .0412826    -0.32   0.749    -.0940992    .0677256
+isib_occupation |  -.0286525   .0291142    -0.98   0.325    -.0857153    .0284103
+---------------------------------------------------------------------------------
+
+. outreg2 using testOaxacaPaternalIHS90, replace excel dec(4) 
+testOaxacaPaternalIHS90.xml
+dir : seeout
+
+. 
+. drop f50 f10 m90 m50 m10 f90 f50 f10 m90 m50 m10 dif90 dif50 dif10 densw1 evalw1 densb1 evalb1 rif_90 
+> rif_10 rif_50 eval1 densw evalw eval2 densb evalb 
+
+. 
+. *****************************************************************************************
+. *two-stage least squares (2SLS/IV) for panel data                                       *
+. * maternal grandparent - grandchild estimates (Table 1, Column (3))                     *  
+. *****************************************************************************************
+. //working directory
+. clear 
+
+. clear matrix
+
+. *cd "change working directory"
+. use "aeapp_mobility_column3_table1.dta"
+
+. 
+. //maternal grandparental wealth
+. global xlist isib_age sib_agesq  isib_race   
+
+. global x2list igpar_wealth isib_educ isib_child isib_married isib_employ isib_occupation sib_pension i
+> sib_2home isib_computeruse isib_riskpref i.year sib_sex 
+
+. global ylist isib_famincome 
+
+. 
+. xtivreg $ylist $xlist (isib_stocks=$x2list), first re ec2sls vce(cluster sib_id)
+note: 2017.year omitted because of collinearity.
+the sample specifies cross-sectional data
+xtivreg is not designed for cross-sectional data
+use ivregress with cross-sectional data
+r(498);
+
+end of do-file
+
+r(498);
+
+. log close
+      name:  <unnamed>
+       log:  /Users/oskarskorge/Documents/LUSEM/LUSEM/Advanced Analysis of Economic Change/Replication/R
+> eplication_2/Ouput/output.log
+  log type:  text
+ closed on:  18 Mar 2026, 20:54:33
+--------------------------------------------------------------------------------------------------------
